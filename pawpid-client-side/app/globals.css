@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  --background: #FEFEFA;
+  --foreground: #0E0000;
+
+  --darkRed: #460000;
+  --crimsonRed: #911A1C;
+  --pastel-pink: #F1AD93;
+  --misty-rose: #F3CCB1;
+  --cream: #F5F5D9;
+}
+
+@layer base {
+  :root {
+    --font-poppins: 'Poppins', sans-serif;
+    --font-fredoka: 'Fredoka_One', cursive;
+  }
+
+  body {
+    @apply bg-[#FFF5F7] text-gray-900;
+    font-family: var(--font-poppins);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-fredoka);
+  }
+}
+
+@theme {
+--background: #FEFEFA;
+  --foreground: #0E0000;
+
+  --darkRed: #460000;
+  --crimsonRed: #911A1C;
+  --pastel-pink: #F1AD93;
+  --misty-rose: #F3CCB1;
+  --cream: #F5F5D9;
+}
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Poppins, Fredoka;
+}
