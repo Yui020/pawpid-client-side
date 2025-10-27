@@ -9,8 +9,10 @@ import AdopterLifestyle from "@/components/application-form/adopters-lifestyle";
 import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
+import { useRouter } from 'next/navigation';
 
 export default function PawrfectMatch() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   
   const userInfo = {
@@ -70,8 +72,7 @@ export default function PawrfectMatch() {
   Personality: '',
   Open_to_stray_with_med_needs: '',
   Specific_appearance: ''
-
-});
+  });
 
   // AI GENERATOR
   const AiGenerator = ({ onNext, onBack }: { onNext: () => void; onBack: () => void }) => (
@@ -145,19 +146,31 @@ export default function PawrfectMatch() {
 
   const handlePreferencesChange = (field: string, value: string) => {
   setPreferencesData(prev => ({ ...prev, [field]: value }));
-};
+  };
 
-const handleConfirmationChange = (field: string, value: string | File | null) => {
-  setConfirmationData(prev => ({ ...prev, [field]: value }));
-};
+  const handleConfirmationChange = (field: string, value: string | File | null) => {
+    setConfirmationData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleNext = (e?: React.FormEvent) => {
     if (e) {
       e.preventDefault();
     }
+    if (currentStep === 4) {
+      if (preferencesData.Specific_appearance === "Yes") {
+        // Redirect to AI Stray Generator page
+        router.push("/pawrfect-match/ai-stray-generator");
+        return;
+      } else if (preferencesData.Specific_appearance === "Any appearance is fine") {
+        // Redirect to Matching Results page
+        router.push("/pawrfect-match/matching-results");
+        return;
+      }
+    }
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     }
+    
   };
 
   const handleBack = () => {
@@ -338,9 +351,6 @@ const handleConfirmationChange = (field: string, value: string | File | null) =>
                   </button>
                 </div>
               </div>
-              
-            
-
             )}
 
           </div>
