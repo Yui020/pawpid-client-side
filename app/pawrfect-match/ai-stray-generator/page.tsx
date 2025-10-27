@@ -58,7 +58,7 @@ export default function AIPetGenerator() {
           <h1 className="text-5xl font-extrabold text-[#911A1C] mb-2">
             AI PET GENERATOR
           </h1>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-700 mx-auto">
             Visualize your dream pet by describing your preferences. PawPid’s AI will generate
             an image and suggest real strays with similar features.
           </p>
