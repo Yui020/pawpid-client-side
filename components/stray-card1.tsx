@@ -20,7 +20,7 @@ export default function AIStrayCard({ stray }: AIStrayCardProps) {
       <img src={stray.image_url} alt={stray.name} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-lg font-bold text-[#911A1C]">
-          {stray.stray_name} - {(stray.pred_probability[1] * 100).toFixed(2)}% Matching Probability
+          {stray.stray_name} - {(stray.pred_probability[1] * 100).toFixed(2)}% Matched
         </h3>
         <div className="flex flex-wrap gap-2 mt-2 text-sm">
           {[stray.breed, stray.age_group, stray.sex].map((tag, i) => (
