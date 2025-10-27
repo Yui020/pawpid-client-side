@@ -10,8 +10,49 @@ import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
 import { useRouter } from 'next/navigation';
+import { getMatchingPrediction } from "../microservices_api/match_ai_services/getMatchingPrediction";
 
 export default function PawrfectMatch() {
+
+  //---------------- Handle Prediction 
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState<any>(null);
+
+    const handlePredict = async () => {
+      setLoading(true);
+      try {
+        const data = await getMatchingPrediction({
+          species_type: preferencesData.Specific_pet,
+          used_ai: false,
+          id_list: [1, 2, 3],
+          building_type: lifestyleData.Building_type,
+          daily_care: readinessData.Care_responsible_person, 
+          monthly_pet_budget_range: "Low",  //Lagyan ng field para dito
+          backup_caregiver: readinessData.Vacation_caretaker, //papalitan ng Yes or No yung fields
+          work_hours_type: "Remote", //paplitan ng values na nasa gsheets
+          hours_pet_left_alone: readinessData.Hours_pet_left_alone, //ex: 0 to 2, Change value, base on gheets
+          has_other_pets: readinessData.Have_other_pets,
+          past_pets: readinessData.Had_pets_before,
+          sex_preference: preferencesData.Preferred_stray_sex,
+          age_preference: preferencesData.Preferred_age,
+          energy_preferencee: preferencesData.Preferred_energy_level,
+        });
+
+        setResult(data);  
+        console.log("Prediction result:", data);
+        localStorage.removeItem("matchingResult");
+        localStorage.setItem("matchingResult", JSON.stringify(data));
+        router.push("/pawrfect-match/matching-results"); 
+
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+//-------------------------------------------
+
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   
@@ -162,7 +203,8 @@ export default function PawrfectMatch() {
         router.push("/pawrfect-match/ai-stray-generator");
         return;
       } else if (preferencesData.Specific_appearance === "Any appearance is fine") {
-        // Redirect to Matching Results page
+        //================================ pass data here
+        handlePredict();
         router.push("/pawrfect-match/matching-results");
         return;
       }
@@ -170,7 +212,6 @@ export default function PawrfectMatch() {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     }
-    
   };
 
   const handleBack = () => {
@@ -188,7 +229,8 @@ export default function PawrfectMatch() {
     console.log('Form submitted:', {
       adopterInfoData,
       lifestyleData,
-      readinessData
+      readinessData, 
+      preferencesData
     });
     // Add your submission logic here (e.g., API call)
     alert('Form submitted successfully!');

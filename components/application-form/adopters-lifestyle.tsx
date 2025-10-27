@@ -10,14 +10,14 @@ interface AdopterLifestyleProps {
     familySupport: string;
     explanation: string;
   };
-  onChange: (field: string, value: string) => void;
+  onInputChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
 export default function AdopterLifestyle({
   formData,
-  onChange,
+  onInputChange,
   onNext,
   onBack,
 }: AdopterLifestyleProps) {
@@ -35,7 +35,7 @@ export default function AdopterLifestyle({
             </label>
             <select
               value={formData.Building_type}
-              onChange={(e) => onChange("Building_type", e.target.value)}
+              onChange={(e) => onInputChange("Building_type", e.target.value)}
               className="w-full rounded-lg border-2 border-gray-300 px-4 py-2 text-gray-800 focus:border-[#6B1F1F] focus:ring-0"
             >
               <option value="">Select</option>
@@ -61,7 +61,7 @@ export default function AdopterLifestyle({
                     name="Renting"
                     value={val}
                     checked={formData.Renting === val}
-                    onChange={(e) => onChange("Renting", e.target.value)}
+                    onChange={(e) => onInputChange("Renting", e.target.value)}
                     className="w-4 h-4 accent-[#6B1F1F]"
                   />
                   <span className="text-sm text-gray-700">{val}</span>
@@ -77,7 +77,7 @@ export default function AdopterLifestyle({
             </label>
             <select
               value={formData.Living_with}
-              onChange={(e) => onChange("Living_with", e.target.value)}
+              onChange={(e) => onInputChange("Living_with", e.target.value)}
               className="w-full rounded-lg border-2 border-gray-300 px-4 py-2 text-gray-800 focus:border-[#6B1F1F] focus:ring-0"
             >
               <option value="">Select</option>
@@ -100,7 +100,7 @@ export default function AdopterLifestyle({
               required
               type="text"
               value={formData.Plan_if_moving}
-              onChange={(e) => onChange('Plan_if_moving', e.target.value)}
+              onChange={(e) => onInputChange('Plan_if_moving', e.target.value)}
               className="border rounded-md w-full p-2"
               placeholder="Enter here.."
             />
@@ -119,7 +119,7 @@ export default function AdopterLifestyle({
                     name="Allergic_household_member"
                     value={val}
                     checked={formData.Allergic_household_member === val}
-                    onChange={(e) => onChange("householdAllergies", e.target.value)}
+                    onChange={(e) => onInputChange("householdAllergies", e.target.value)}
                     className="w-4 h-4 accent-[#6B1F1F]"
                   />
                   <span className="text-sm text-gray-700">{val}</span>
@@ -141,7 +141,7 @@ export default function AdopterLifestyle({
                     name="familySupport"
                     value={val}
                     checked={formData.familySupport === val}
-                    onChange={(e) => onChange("familySupport", e.target.value)}
+                    onChange={(e) => onInputChange("familySupport", e.target.value)}
                     className="w-4 h-4 accent-[#6B1F1F]"
                   />
                   <span className="text-sm text-gray-700">{val}</span>
@@ -157,7 +157,7 @@ export default function AdopterLifestyle({
             </label>
             <textarea
               value={formData.explanation}
-              onChange={(e) => onChange("explanation", e.target.value)}
+              onChange={(e) => onInputChange("explanation", e.target.value)}
               placeholder="Enter your explanation here..."
               rows={3}
               className="w-full rounded-lg border-2 border-gray-300 px-4 py-2 text-gray-800 focus:border-[#6B1F1F] focus:ring-0 resize-none"
