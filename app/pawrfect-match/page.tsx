@@ -11,6 +11,7 @@ import AdopterPreferences from "@/components/application-form/adopters-preferenc
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
 import { useRouter } from 'next/navigation';
 import { getMatchingPrediction } from "../microservices_api/match_ai_services/getMatchingPrediction";
+import { extractImageFeatureVectorUpload } from "../microservices_api/match_ai_services/SimilarStray";
 
 export default function PawrfectMatch() {
 
@@ -50,6 +51,10 @@ export default function PawrfectMatch() {
         setLoading(false);
       }
     };
+
+
+  //--------- Handle Similarity 
+
 
 //-------------------------------------------
 

@@ -1,3 +1,29 @@
+//import { extractImageFeatureVectorUpload } from "../microservices_api/match_ai_services/SimilarStray";
+
+/*
+
+      const [loading, setLoading] = useState(false);
+      const [result, setResult] = useState<any>(null);
+        const handleSimilarity = async () => {
+          setLoading(true);
+          try {
+            const data = await extractImageFeatureVectorUpload({
+            });
+    
+            setResult(data);  
+            console.log("Similar looking strays:", data);
+            //Display Similar Looking strays 
+            //router.push("/pawrfect-match/ai-stray-generator/"); 
+    
+          } catch (err) {
+            console.error(err);
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        */
+
 export default function FileUpload({ onFileSelect }: { onFileSelect?: (file: File) => void }) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -5,6 +31,7 @@ export default function FileUpload({ onFileSelect }: { onFileSelect?: (file: Fil
       onFileSelect(file);
     }
   };
+
 
   return (
     <form

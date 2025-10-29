@@ -9,6 +9,10 @@ import AIStrayCard from "@/components/stray-card";
 import router from "next/router";
 
 export default function AIPetGenerator() {
+
+
+  
+
   const [generatedImage, setGeneratedImage] = useState<string>("/images/sample-dog.png");
   const [strays, setStrays] = useState<any[]>([
     {
