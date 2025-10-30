@@ -21,6 +21,7 @@ export default function PawrfectMatch() {
 
     const handlePredict = async () => {
       setLoading(true);
+      /*
       try {
         const data = await getMatchingPrediction({
           species_type: preferencesData.Specific_pet,
@@ -50,6 +51,7 @@ export default function PawrfectMatch() {
       } finally {
         setLoading(false);
       }
+        */
     };
 
 
