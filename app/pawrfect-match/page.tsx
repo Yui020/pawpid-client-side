@@ -243,50 +243,53 @@ export default function PawrfectMatch() {
     alert('Form submitted successfully!');
   };
 
+
+  // -------------------------------------------------------------------------
   return (
     <PawBackground>
       <div className="container mx-auto px-6 py-8 relative z-10">
         
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-5xl font-fredoka font-extrabold text-[#911A1C] mb-2">PAWRFECT MATCH!</h1>
-          <p className="text-lg text-gray-700">
-             Discover pets that fit your lifestyle and preferences through our compatibility scoring system.
-          </p>
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">PAWRFECT MATCH!</h1>
+          <p className="text-base font-poppins text-blackRed">Discover pets that fit your lifestyle and preferences through our compatibility scoring system.</p>
         </div>
 
-        {/* Layout with Sidebar and Form */}
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-col xl:flex-row sm:flex-col items-center gap-6">
+          
           {/* BASIC INFOO */}
-        <AdopterBasicInfo {...userInfo} />
+          <div className="h-auto">
+            <AdopterBasicInfo {...userInfo} />
+          </div>
+        
 
           {/* MAIN FORM AREA */}
           <div className="lg:w-3/4">
             
-            {/* 1. ADOPTER'S INFORMSTION */}
+            {/* 1. ADOPTER'S INFORMATION */}
             {currentStep === 1 && (
               <div>
                 <div>
-                <AdopterInfo 
-                  formData={adopterInfoData}
-                  onInputChange={handleAdopterInfoChange}
-                  onSubmit={handleNext}
-                />
-              </div>
+                  <AdopterInfo 
+                    formData={adopterInfoData}
+                    onInputChange={handleAdopterInfoChange}
+                    onSubmit={handleNext}
+                  />
+                </div>
 
+                <div className="flex items-center justify-between gap-4 pt-5">
+                  <p className="text-darkRed text-center">
+                    To <strong>Match and Adopt a pet</strong> you need to complete some fields. Click Start...
+                  </p>
 
-                <p className="text-gray-700 mb-6 text-center pt-5">
-                  To <strong>Match and Adopt a pet</strong> you need to complete some fields. Click Start...
-                </p>
-                <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={handleStart}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
                   >
                     Start
                   </button>
-                </div>
+                </div>                 
               </div>
             )}
 
@@ -303,14 +306,14 @@ export default function PawrfectMatch() {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
                   >
                     Next →
                   </button>
@@ -330,14 +333,14 @@ export default function PawrfectMatch() {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
                   >
                     Next →
                   </button>
@@ -360,14 +363,14 @@ export default function PawrfectMatch() {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
                   >
                     Next →
                   </button>
@@ -387,14 +390,14 @@ export default function PawrfectMatch() {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={handleFormSubmit}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
                   >
                     Submit
                   </button>

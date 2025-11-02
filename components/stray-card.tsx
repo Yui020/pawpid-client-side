@@ -1,24 +1,35 @@
-export default function AIStrayCard({ stray }: { stray: any }) {
+"use client";
+import StrayDetails from "@/app/stray-details/page";
+import { useRouter } from "next/navigation";
+
+export default function AIStrayCard({ stray, onSelect, }: { stray: any; onSelect?: () => void; }) {
+
+  const router = useRouter();
+
   return (
-    <div className="bg-[#FBE6E4] rounded-2xl overflow-hidden shadow-md border border-[#D5B6B5]">
+    <div className="bg-bgColor rounded-2xl overflow-hidden shadow-lg">
       <img src={stray.image} alt={stray.name} className="w-full h-48 object-cover" />
       <div className="p-4">
-        <h3 className="text-lg font-bold text-[#911A1C]">{stray.name} - {stray.match}%</h3>
+        <h3 className="text-2xl font-fredoka font-bold text-darkRed">{stray.name} - {stray.match}%</h3>
         <div className="flex flex-wrap gap-2 mt-2 text-sm">
           {[stray.breed, stray.age, stray.sex, stray.size].map((tag, i) => (
             <span
               key={i}
-              className="bg-[#F6D4D2] text-[#911A1C] px-3 py-1 rounded-full font-medium"
+              className="bg-pastelPink text-xs font-poppins text-crimsonRed px-3 py-1 rounded-full font-medium"
             >
               {tag}
             </span>
           ))}
         </div>
-        <button
-          className="mt-4 bg-[#911A1C] text-white px-4 py-1 rounded-md hover:bg-[#6d1315] transition"
-        >
-          Stray Details →
-        </button>
+        <div className="flex justify-end mt-3">
+          <button
+          onClick={onSelect}
+          className="flex justify-end mt-4 bg-crimsonRed text-white px-4 py-1 rounded-md hover:bg-[#6d1315] transition"
+          >
+            Stray Details
+          </button>
+        </div>
+        
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <nav className="bg-[#460000] px-6 py-4 flex items-center justify-between shadow-xl shadow-[#460000]-2xl">
+    <nav className="bg-[#460000] fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between shadow-xl shadow-[#460000]-2xl">
       {/* LOGO */}
       <Link href="/" className="hover:opacity-90 transition">
         <Image src="/assets/pawpid-logo.png" alt="Pawpid Logo" width={120} height={40}/>

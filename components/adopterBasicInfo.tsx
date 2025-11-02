@@ -19,7 +19,7 @@ export default function AdopterBasicInfo({
 
 }: UserInfoSidebarProps) {
   return (
-    <div className="bg-[#FEFEFA] rounded-lg shadow-md p-6 w-full max-w-[320px]">
+    <div className="bg-[#FEFEFA] rounded-lg shadow-md p-6 w-full max-w-[320px] h-auto">
       
       {/* PROFFILE IMAGE */}
       <div className="flex justify-center mb-6">
@@ -33,28 +33,28 @@ export default function AdopterBasicInfo({
       {/* INFO */}
       <div className="space-y-4">
         <div className="flex gap-5 px-7">
-          <p className="text-sm font-semibold text-[#460000] whitespace-nowrap">Full Name:</p>
-          <p className="text-sm text-[#460000]">{fullName}</p>
+          <p className="text-sm font-poppins font-bold text-crimsonRed whitespace-nowrap">Full Name:</p>
+          <p className="text-sm font-poppins text-blackRed">{fullName}</p>
         </div>
 
         <div className="flex gap-6 px-7">
-          <p className="text-sm font-semibold text-[#460000] whitespace-nowrap">Birthdate:</p>
-          <p className="text-sm text-[#460000]">{birthdate}</p>
+          <p className="text-sm font-poppins font-bold text-crimsonRed whitespace-nowrap">Birthdate:</p>
+          <p className="text-sm font-poppins text-blackRed">{birthdate}</p>
         </div>
 
         <div className="flex gap-11 px-7">
-          <p className="text-sm font-semibold text-[#460000] whitespace-nowrap">Phone:</p>
-          <p className="text-sm text-[#460000]">{phone}</p>
+          <p className="text-sm font-poppins font-bold text-crimsonRed whitespace-nowrap">Phone:</p>
+          <p className="text-sm font-poppins text-blackRed">{phone}</p>
         </div>
 
         <div className="flex gap-12 px-7">
-          <p className="text-sm font-semibold text-[#460000] whitespace-nowrap">Email:</p>
-          <p className="text-sm text-[#460000]">{email}</p>
+          <p className="text-sm font-poppins font-bold text-crimsonRed whitespace-nowrap">Email:</p>
+          <p className="text-sm font-poppins text-blackRed">{email}</p>
         </div>
 
         <div className="flex gap-7 px-7">
-          <p className="text-sm font-semibold text-[#460000] whitespace-nowrap">Address:</p>
-          <p className="text-sm text-[#460000]">{address}</p>
+          <p className="text-sm font-poppins font-bold text-crimsonRed whitespace-nowrap">Address:</p>
+          <p className="text-sm font-poppins text-blackRed">{address}</p>
         </div>
       </div>
     </div>

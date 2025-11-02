@@ -7,11 +7,9 @@ import AIStrayForm from "@/components/ai-stray-form";
 import GeneratedImage from "@/components/generated-image";
 import AIStrayCard from "@/components/stray-card";
 import router from "next/router";
+import GeneratedStrayImage from "@/components/generated-image";
 
 export default function AIPetGenerator() {
-
-
-  
 
   const [generatedImage, setGeneratedImage] = useState<string>("/images/sample-dog.png");
   const [strays, setStrays] = useState<any[]>([
@@ -59,45 +57,51 @@ export default function AIPetGenerator() {
       <div className="container mx-auto px-6 py-10 relative z-10">
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-5xl font-extrabold text-[#911A1C] mb-2">
-            AI PET GENERATOR
-          </h1>
-          <p className="text-lg text-gray-700 mx-auto">
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2"> AI PET GENERATOR </h1>
+          <p className="text-base font-poppins text-blackRed">
             Visualize your dream pet by describing your preferences. PawPid’s AI will generate
             an image and suggest real strays with similar features.
           </p>
         </div>
 
         {/* MAIN CONTENT */}
-        <div className="grid md:grid-cols-2 gap-10 items-start">
+        <div className="grid lg:grid-cols-[1fr_2.5fr] gap-10 items-start">
           
           {/* LEFT: FORM */}
-          <AIStrayForm onGenerate={handleGenerate} />
-
-          {/* RIGHT: GENERATED IMAGE */}
-          <div className="flex flex-col items-center justify-center">
-            <GeneratedImage imageUrl={generatedImage} />
+          <div>
+            <AIStrayForm onGenerate={handleGenerate} />
           </div>
-        </div>
-
-        {/* STRAY MATCH RESULTS */}
-        <div className="mt-10">
-          <h2 className="text-center font-extrabold text-[#911A1C] text-lg mb-4 tracking-wide">
-            AVAILABLE PAWPID STRAYS THAT MATCH YOUR PREFERENCES:
-          </h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {strays.map((stray, index) => (
-              <AIStrayCard key={index} stray={stray} />
-            ))}
+          
+          {/* RIGHT*/}
+          <div className="grid md:grid-row-2 gap-5 items-start">
+            
+            {/* GENERATED IMAGE */}
+            <div className="flex flex-col items-center justify-center">
+              <GeneratedStrayImage imageUrl={generatedImage} />
+            </div>
+            
+            {/* STRAY MATCH RESULTS */}
+            <div>
+              <h2 className="text-center font-extrabold text-[#911A1C] text-lg mb-4 tracking-wide">
+                AVAILABLE PAWPID STRAYS THAT MATCH YOUR PREFERENCES:
+              </h2>
+              
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {strays.map((stray, index) => (
+                  <AIStrayCard key={index} stray={stray} />
+                ))}
+              </div>
+            </div>
           </div>
+
         </div>
 
         {/* NAVIGATION BUTTONS */}
             <div className="flex justify-between mt-10">
-              <button className="flex items-center gap-2 border-2 border-[#911A1C] text-[#911A1C] font-semibold px-6 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition">
+              <button className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold">
                 ← Back
               </button>
-              <button className="flex items-center gap-2 bg-[#911A1C] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#6d1315] transition">
+              <button className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold">
                 Next →
               </button>
             </div>
