@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Fredoka } from "next/font/google";
-import Navbar from '@/components/navbar';
-import "./globals.css";
+// import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -22,17 +21,17 @@ export const metadata: Metadata = {
   description: "Where Tails Wag and Hearts Connect",
 };
 
-export default function RootLayout({
+
+export default function AuthLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${fredokaOne.variable} font-sans antialiased`}>
-        <Navbar />
         
-        <main className="lg:pt-20 md:pt-20 pt-30 min-h-[calc(100vh-72px)]">
+        <main className="min-h-[calc(100vh-72px)]">
           {children}
         </main>
       </body>
