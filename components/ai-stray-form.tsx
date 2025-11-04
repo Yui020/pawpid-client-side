@@ -11,13 +11,24 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
     Pet_ears: ''
   });
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  // Validation function to check if all fields are filled
+  const isFormValid = () => {
+    return (
+      formData.Pet_type !== '' &&
+      formData.Pet_Size !== '' &&
+      formData.Pet_physique !== '' &&
+      formData.Pet_eyes !== '' &&
+      formData.Pet_pattern !== '' &&
+      formData.Pet_fur !== '' &&
+      formData.Pet_ears !== ''
+    );
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onGenerate(formData);
+    if (isFormValid()) {
+      onGenerate(formData);
+    }
   };
 
   function onInputChange(field: string, value: string) {
@@ -37,7 +48,7 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
         {/* Pet Type */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            What type of pet do you prefer?
+            What type of pet do you prefer? <span className="text-crimsonRed">*</span>
           </label>
           <div className="flex border px-2 py-2 border-crimsonRed rounded-md overflow-hidden w-full">
             {["Cat", "Dog"].map((Pet_type) => (
@@ -66,9 +77,12 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
         {/* Pet Size */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            What size of pet do you prefer?
+            What size of pet do you prefer? <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_Size" value={formData.Pet_Size}
+          <select 
+            required 
+            name="Pet_Size" 
+            value={formData.Pet_Size}
             onChange={(e) => onInputChange("Pet_Size", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_Size ? "text-darkRed" : "text-grayPink"
@@ -88,13 +102,15 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
           </select>
         </div>
    
-
         {/* Physique */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Physique/Built:
+            Physique/Built: <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_physique" value={formData.Pet_physique}
+          <select 
+            required 
+            name="Pet_physique" 
+            value={formData.Pet_physique}
             onChange={(e) => onInputChange("Pet_physique", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_physique ? "text-darkRed" : "text-grayPink"
@@ -118,9 +134,12 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
         {/* Eyes */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Eye Type:
+            Eye Type: <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_eyes" value={formData.Pet_eyes}
+          <select 
+            required 
+            name="Pet_eyes" 
+            value={formData.Pet_eyes}
             onChange={(e) => onInputChange("Pet_eyes", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_eyes ? "text-darkRed" : "text-grayPink"
@@ -144,9 +163,12 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
         {/* Pattern */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Pattern:
+            Pattern: <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_pattern" value={formData.Pet_pattern}
+          <select 
+            required 
+            name="Pet_pattern" 
+            value={formData.Pet_pattern}
             onChange={(e) => onInputChange("Pet_pattern", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_pattern ? "text-darkRed" : "text-grayPink"
@@ -171,9 +193,12 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
          {/* Fur */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Fur Type:
+            Fur Type: <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_fur" value={formData.Pet_fur}
+          <select 
+            required 
+            name="Pet_fur" 
+            value={formData.Pet_fur}
             onChange={(e) => onInputChange("Pet_fur", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_fur ? "text-darkRed" : "text-grayPink"
@@ -198,9 +223,12 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
         {/* Ears */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Ears:
+            Ears: <span className="text-crimsonRed">*</span>
           </label>
-          <select required name="Pet_ears" value={formData.Pet_ears}
+          <select 
+            required 
+            name="Pet_ears" 
+            value={formData.Pet_ears}
             onChange={(e) => onInputChange("Pet_ears", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
               formData.Pet_ears ? "text-darkRed" : "text-grayPink"
@@ -229,9 +257,17 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
 
        {/* Submit Button */}
       <div className="flex">
-        <button type="submit"
-          className="w-full bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
-        > Generate AI Pet </button>
+        <button 
+          type="submit"
+          disabled={!isFormValid()}
+          className={`w-full font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+            isFormValid()
+              ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          Generate AI Pet
+        </button>
       </div>
     </form>
   );

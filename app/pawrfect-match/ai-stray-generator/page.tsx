@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import PawBackground from "@/components/pawBackground";
 import AIStrayForm from "@/components/ai-stray-form";
-import GeneratedImage from "@/components/generated-image";
-import AIStrayCard from "@/components/stray-card";
-import router from "next/router";
 import GeneratedStrayImage from "@/components/generated-image";
+import AIStrayCard from "@/components/stray-card";
 
 export default function AIPetGenerator() {
-
+  const router = useRouter();
+  
   const [generatedImage, setGeneratedImage] = useState<string>("/images/sample-dog.png");
+  const [hasGenerated, setHasGenerated] = useState<boolean>(false);
+  
   const [strays, setStrays] = useState<any[]>([
     {
       name: "TINA",
@@ -44,22 +46,34 @@ export default function AIPetGenerator() {
 
   const handleGenerate = (formData: any) => {
     console.log("Form submitted:", formData);
-
-    // logic
+    
+    // AI generation logic here
     setGeneratedImage("/assets/strayImage.png");
+    setHasGenerated(true);
   };
 
-//   const handleBack = () => setCurrentStep(4);
-//   const handleNext = () => setCurrentStep(5);
+  const handleBack = () => {
+    // Navigate back to pawrfect-match page at step 4 (preferences)
+    router.push("/pawrfect-match?step=4");
+  };
+
+  const handleNext = () => {
+    if (hasGenerated) {
+      // Navigate to pawrfect-match page at step 5 (confirmation)
+      router.push("/pawrfect-match?step=5");
+    }
+  };
 
   return (
     <PawBackground>
       <div className="container mx-auto px-6 py-10 relative z-10">
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2"> AI PET GENERATOR </h1>
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">
+            AI PET GENERATOR
+          </h1>
           <p className="text-base font-poppins text-blackRed">
-            Visualize your dream pet by describing your preferences. PawPid’s AI will generate
+            Visualize your dream pet by describing your preferences. PawPid's AI will generate
             an image and suggest real strays with similar features.
           </p>
         </div>
@@ -72,7 +86,7 @@ export default function AIPetGenerator() {
             <AIStrayForm onGenerate={handleGenerate} />
           </div>
           
-          {/* RIGHT*/}
+          {/* RIGHT */}
           <div className="grid md:grid-row-2 gap-5 items-start">
             
             {/* GENERATED IMAGE */}
@@ -97,14 +111,27 @@ export default function AIPetGenerator() {
         </div>
 
         {/* NAVIGATION BUTTONS */}
-            <div className="flex justify-between mt-10">
-              <button className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold">
-                ← Back
-              </button>
-              <button className="bg-crimsonRed text-white font-poppins px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold">
-                Next →
-              </button>
-            </div>
+        <div className="flex justify-between mt-10">
+          <button 
+            type="button"
+            onClick={handleBack}
+            className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
+          >
+            ← Back
+          </button>
+          <button 
+            type="button"
+            onClick={handleNext}
+            disabled={!hasGenerated}
+            className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+              hasGenerated
+                ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Next →
+          </button>
+        </div>
 
       </div>
     </PawBackground>

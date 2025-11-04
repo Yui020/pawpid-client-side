@@ -12,24 +12,17 @@ interface AdopterInformationProps {
     Email: string;
     AgreeToTerms: boolean;
   };
-  onInputChange: (field: string, value: string) => void;
-  onSubmit?: (e: React.FormEvent) => void;
+  onInputChange: (field: string, value: string | boolean) => void;
 }
 
 const AdopterInformation: React.FC<AdopterInformationProps> = ({
   formData,
-onInputChange,
-  onSubmit,
+  onInputChange,
 }) => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSubmit) onSubmit(e);
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       
-      <h2 className="text-3xl font-fredoka font-bold text-darkRed mb-6 border-b-5 border-darkRed text-center pb-2"> ADOPTER’S INFORMATION</h2>
+      <h2 className="text-3xl font-fredoka font-bold text-darkRed mb-6 border-b-5 border-darkRed text-center pb-2"> ADOPTER'S INFORMATION</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         {/* Occupation */}
@@ -163,7 +156,8 @@ onInputChange,
       {/* Terms and Privacy Policy */}
       <div className="flex items-center mt-10">
         <input type="checkbox" id="agreeToTerms"
-          onChange={(e) => onInputChange("agreeToTerms", String(e.target.checked))}
+          checked={formData.AgreeToTerms}
+          onChange={(e) => onInputChange("AgreeToTerms", e.target.checked)}
           className="mr-3 w-5 h-5 accent-crimsonRed border-2 border-crimsonRed rounded"
         />
         <label htmlFor="agreeToTerms" className="font-poppins text-blackRed text-sm">
@@ -172,7 +166,7 @@ onInputChange,
           <span className="font-poppins font-semibold text-darkRed">Privacy Policy</span>.
         </label>
       </div>
-    </form>
+    </div>
   );
 };
 

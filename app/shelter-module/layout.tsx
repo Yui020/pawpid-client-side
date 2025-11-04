@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Fredoka } from "next/font/google";
-import "../globals.css";
+import "../globals.css"; // adjust path if needed
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -17,20 +17,21 @@ const fredokaOne = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "PawPid",
-  description: "Where Tails Wag and Hearts Connect",
+  title: "Shelter Home | PawPid",
+  description:
+    "Manage stray reports, adoption requests, and vaccination records.",
 };
 
-export default function AuthLayout({
+export default function ShelterLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <main
-      className={`${poppins.variable} ${fredokaOne.variable} font-sans antialiased min-h-[calc(100vh-72px)]`}
+    <div
+      className={`${poppins.variable} ${fredokaOne.variable} font-sans antialiased bg-[#FFF5F5] min-h-screen`}
     >
       {children}
-    </main>
+    </div>
   );
 }

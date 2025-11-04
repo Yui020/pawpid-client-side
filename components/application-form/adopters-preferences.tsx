@@ -14,7 +14,7 @@ interface AdopterPreferencesProps {
     Specific_appearance: string;
   };
   onInputChange: (field: string, value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit?: () => void;
 }
 
 export default function AdopterPreferences({ formData, onInputChange, onSubmit }: AdopterPreferencesProps) {

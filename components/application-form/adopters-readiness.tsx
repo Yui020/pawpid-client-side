@@ -13,19 +13,11 @@ interface AdopterReadinessProps {
     Introduction_steps: string;
   };
   onInputChange: (field: string, value: string) => void;
-  onSubmit?: (e: React.FormEvent) => void;
 }
 
-const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputChange, onSubmit }) => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSubmit) {
-      onSubmit(e);
-    }
-  };
-
+const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputChange }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
 
       <h2 className="text-3xl font-fredoka font-bold text-darkRed mb-6 border-b-5 border-darkRed text-center pb-2">ADOPTION READINESS QUESTIONS</h2>
 
@@ -98,10 +90,10 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
               backgroundSize: "18px 10px",
             }}
           >
-            <option value="" className="text-grayPink" disabled>Select Pronounce</option>
+            <option value="" className="text-grayPink" disabled>Select</option>
             <option value="Daily_Self" className="text-darkRed">Me</option>
             <option value="Daily_Shared" className="text-darkRed">Shared Responsibility</option>
-            <option value="Daily_Family_Member" className="text-darkRed">Family Memeber</option>
+            <option value="Daily_Family_Member" className="text-darkRed">Family Member</option>
           </select>
         </div>
 
@@ -144,10 +136,10 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
               backgroundSize: "18px 10px",
             }}
           >
-            <option value="" className="text-grayPink" disabled>Select Pronounce</option>
+            <option value="" className="text-grayPink" disabled>Select</option>
             <option value="Financial_Self" className="text-darkRed">Me</option>
             <option value="Financial_Shared" className="text-darkRed">Shared Responsibility</option>
-            <option value="Financial_Family_Member" className="text-darkRed">Family Memeber</option>
+            <option value="Financial_Family_Member" className="text-darkRed">Family Member</option>
           </select>
         </div>
       
@@ -178,7 +170,7 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
 
         {/* Monthly Pet Budget */}
           <div>
-            <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">What is your estimated monthly budget for your pet’s care (food, grooming, health, etc.)?</label>
+            <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">What is your estimated monthly budget for your pet's care (food, grooming, health, etc.)?</label>
             <input required type="text" value={formData.Monthy_budget} placeholder="Enter here.."
               onChange={(e) => onInputChange('Monthy_budget', e.target.value)}
               className="w-full px-4 py-2 border font-poppins placeholder-grayPink border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed"
@@ -202,9 +194,9 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
               }}
             >
               <option value="" className="text-grayPink" disabled>Select Work Arrangement</option>
-              <option value="Pet_Alone_1" className="text-darkRed">Remote (work from home)</option>
-              <option value="Pet_Alone_2" className="text-darkRed">Hybrid (mix of home and office)</option>
-              <option value="Pet_Alone_3" className="text-darkRed">Hybrid (mix of home and office)</option>
+              <option value="Remote" className="text-darkRed">Remote (work from home)</option>
+              <option value="Hybrid" className="text-darkRed">Hybrid (mix of home and office)</option>
+              <option value="On-site" className="text-darkRed">On-site (office/workplace)</option>
             </select>
         </div>
 
@@ -221,7 +213,7 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
         </div>
 
       </div>
-    </form>
+    </div>
   );
 };
 

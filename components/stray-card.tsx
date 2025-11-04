@@ -1,5 +1,5 @@
 "use client";
-import StrayDetails from "@/app/stray-details/page";
+
 import { useRouter } from "next/navigation";
 
 export default function AIStrayCard({ stray, onSelect, }: { stray: any; onSelect?: () => void; }) {

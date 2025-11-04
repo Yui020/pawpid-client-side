@@ -40,43 +40,144 @@ const AdopterConfirmation: React.FC<AdopterConfirmationProps> = ({
         </div>
         
         <div>
-           <div className="border-2 border-dashed border-crimsonRed rounded-md p-6 text-center mb-4 bg-white">
+          <div className="border-2 border-dashed border-crimsonRed rounded-md p-6 text-center mb-4 bg-white relative">
             <div className="text-crimsonRed mb-2">
-              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              <svg
+                className="w-12 h-12 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </div>
-            <p className="text-sm font-poppins text-darkRed mb-2">Click to upload or drag and drop</p>
-            <p className="text-xs font-poppins text-darkRed">SVG, PNG, or JPG (Max. file size: 8 MB.)</p>
-            <input required type="file" accept="image/svg+xml,image/png,image/jpeg,image/jpg" multiple
-              onChange={(e) =>
-                onInputChange("homePhotos", Array.from(e.target.files || []).slice(0, 8))
-              }
+            <p className="text-sm font-poppins text-darkRed mb-2">
+              Click to upload or drag and drop
+            </p>
+            <p className="text-xs font-poppins text-darkRed">
+              SVG, PNG, or JPG (Max. file size: 8 MB, Max. 8 files)
+            </p>
+
+            <input
+              type="file"
+              accept="image/svg+xml,image/png,image/jpeg,image/jpg"
+              multiple
+              onChange={(e) => {
+                const selectedFiles = Array.from(e.target.files || []);
+                const combined = [...formData.homePhotos, ...selectedFiles];
+
+                if (combined.length > 8) {
+                  alert("You can only upload a maximum of 8 photos.");
+                  e.target.value = "";
+                  return;
+                }
+
+                onInputChange("homePhotos", combined);
+                e.target.value = ""; // reset input so user can reupload
+              }}
               className="hidden"
               id="homePhotos"
             />
-            <label htmlFor="homePhotos" className="cursor-pointer inline-block mt-3 px-4 py-2 bg-peachCream text-crimsonRed font-poppins font-semibold rounded-md hover:bg-crimsonRed hover:text-white transition-colors">Choose Files</label>
-          </div> 
+
+            {/* Upload button */}
+            <label
+              htmlFor="homePhotos"
+              className={`cursor-pointer inline-block mt-3 px-4 py-2 font-poppins font-semibold rounded-md transition-colors ${
+                formData.homePhotos.length >= 8
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-peachCream text-crimsonRed hover:bg-crimsonRed hover:text-white"
+              }`}
+            >
+              {formData.homePhotos.length >= 8
+                ? "Maximum Reached"
+                : "Choose Files"}
+            </label>
+
+            {/* Show count */}
+            {formData.homePhotos.length > 0 && (
+              <div className="mt-3 text-sm font-poppins text-darkRed">
+                {formData.homePhotos.length} / 8 photo
+                {formData.homePhotos.length > 1 ? "s" : ""} uploaded
+              </div>
+            )}
+
+            {/* File preview list */}
+            {formData.homePhotos.length > 0 && (
+              <ul className="mt-3 text-left text-sm font-poppins text-darkRed space-y-2">
+                {formData.homePhotos.map((file, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between bg-peachCream/40 px-3 py-1 rounded-md"
+                  >
+                    <span className="truncate w-3/4">{file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = formData.homePhotos.filter(
+                          (_, i) => i !== index
+                        );
+                        onInputChange("homePhotos", updated);
+                      }}
+                      className="text-crimsonRed hover:text-white hover:bg-crimsonRed rounded-full px-2 transition-colors"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
-       
+
       </div>
       
       <div className="grid grid-cols-4 mb-6">
         <div>
-          <label className="block font-poppins font-semibold text-darkRed mb-2">Upload a valid ID:</label>
-          <p className="text-xs font-poppins text-darkRed mb-2">Max. file size: 8 MB.</p>
+          <label className="block font-poppins font-semibold text-darkRed mb-2">
+            Upload a valid ID:
+          </label>
+          <p className="text-xs font-poppins text-darkRed mb-2">
+            Max. file size: 8 MB.
+          </p>
         </div>
-        
-        <div className="col-span-3"> 
-          <input required type="file" accept="image/svg+xml,image/png,image/jpeg,image/jpg"
-            onChange={(e) =>
-              onInputChange("idFile", e.target.files ? e.target.files[0] : null)
-            }
-            className="block w-full border-2 font-poppins border-crimsonRed rounded-md py-2 px-3 text-darkRed file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-peachCream file:text-crimsonRed file:font-poppins file:font-semibold hover:file:bg-crimsonRed hover:file:text-white file:cursor-pointer"
-          />
-        </div> 
+
+        <div className="col-span-3 relative">
+          {!formData.idFile ? (
+            <input
+              required
+              type="file"
+              accept="image/svg+xml,image/png,image/jpeg,image/jpg"
+              onChange={(e) =>
+                onInputChange("idFile", e.target.files ? e.target.files[0] : null)
+              }
+              className="block w-full border-2 font-poppins border-crimsonRed rounded-md py-2 px-3 text-darkRed file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-peachCream file:text-crimsonRed file:font-poppins file:font-semibold hover:file:bg-crimsonRed hover:file:text-white file:cursor-pointer"
+            />
+          ) : (
+            <div className="flex items-center justify-between border-2 border-crimsonRed rounded-md py-2 px-3 font-poppins text-darkRed">
+              <span className="truncate">{formData.idFile.name}</span>
+              <button
+                type="button"
+                onClick={() => onInputChange("idFile", null)}
+                className="ml-3 text-crimsonRed font-semibold hover:text-white hover:bg-crimsonRed rounded-md px-2 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
       </div>
+
       
 
       {/* Interview */}

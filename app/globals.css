@@ -49,6 +49,26 @@
   }
 }
 
+/* ===== Custom Scrollbar (works for all pages) ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1AD93;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #460000;
+  border-radius: 10px;
+  border: 2px solid #fdf4ed;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #911A1C;
+}
+
 
 /* :root {
   --background: #FEFEFA;

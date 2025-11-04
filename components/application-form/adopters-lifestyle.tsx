@@ -11,20 +11,16 @@ interface AdopterLifestyleProps {
     explanation: string;
   };
   onInputChange: (field: string, value: string) => void;
-  onNext: () => void;
-  onBack: () => void;
 }
 
 export default function AdopterLifestyle({
   formData,
   onInputChange,
-  onNext,
-  onBack,
 }: AdopterLifestyleProps) {
   return (
-    <form className="space-y-6">
+    <div className="space-y-6">
       
-      <h2 className="text-3xl font-fredoka font-bold text-darkRed mb-6 border-b-5 border-darkRed text-center pb-2"> ADOPTER’S LIFESTYLE </h2>
+      <h2 className="text-3xl font-fredoka font-bold text-darkRed mb-6 border-b-5 border-darkRed text-center pb-2"> ADOPTER'S LIFESTYLE </h2>
       
         <div>
           {/* Building Type */}
@@ -98,9 +94,9 @@ export default function AdopterLifestyle({
               <option value="Alone" className="text-darkRed">Living Alone</option>
               <option value="Spouse" className="text-darkRed">Spouse</option>
               <option value="Parents" className="text-darkRed">Parents</option>
-              <option value="Parents" className="text-darkRed">Children</option>
-              <option value="Parents" className="text-darkRed">Spouse and Children</option>
-              <option value="Roommates" className="text-darkRed">Relatives</option>
+              <option value="Children" className="text-darkRed">Children</option>
+              <option value="Spouse and Children" className="text-darkRed">Spouse and Children</option>
+              <option value="Relatives" className="text-darkRed">Relatives</option>
               <option value="Roommates" className="text-darkRed">Roommates</option>
             </select>
           </div>
@@ -182,6 +178,6 @@ export default function AdopterLifestyle({
           </div>
 
         </div>
-    </form>
+    </div>
   );
 }
