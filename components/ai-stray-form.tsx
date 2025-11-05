@@ -8,25 +8,23 @@ export default function AIStrayForm({
     loading?: boolean;
   }) {
     const [formData, setFormData] = useState({
-    Pet_type: 'Dog',
-    Pet_Size: 'Small',
-    Pet_physique: 'Lean',
-    Pet_eyes: 'Almond',
-    Pet_pattern: 'Solid',
-    Pet_fur: 'Short',
-    Pet_ears: 'Fully Floppy'
+    pet_size: '',
+    physique: '',
+    pet_type: '',
+    pattern: '',
+    fur: '',
+    ears: ''
   });
 
   // Validation function to check if all fields are filled
   const isFormValid = () => {
     return (
-      formData.Pet_type !== '' &&
-      formData.Pet_Size !== '' &&
-      formData.Pet_physique !== '' &&
-      formData.Pet_eyes !== '' &&
-      formData.Pet_pattern !== '' &&
-      formData.Pet_fur !== '' &&
-      formData.Pet_ears !== ''
+      formData.pet_type !== '' &&
+      formData.pet_size !== '' &&
+      formData.physique !== '' &&
+      formData.pattern !== '' &&
+      formData.fur !== '' &&
+      formData.ears !== ''
     );
   };
 
@@ -57,24 +55,24 @@ export default function AIStrayForm({
             What type of pet do you prefer? <span className="text-crimsonRed">*</span>
           </label>
           <div className="flex border px-2 py-2 border-crimsonRed rounded-md overflow-hidden w-full">
-            {["Cat", "Dog"].map((Pet_type) => (
+            {["Cat", "Dog"].map((pet_type) => (
               <label
-                key={Pet_type}
+                key={pet_type}
                 className={`flex-1 text-center cursor-pointer py-1 font-poppins text-sm border-r last:border-r-0 border-crimsonRed transition-all duration-200 ${
-                  formData.Pet_type === Pet_type
+                  formData.pet_type === pet_type
                     ? "bg-crimsonRed text-white"
                     : "text-darkRed bg-transparent"
                 }`}
               >
                 <input
                   type="radio"
-                  name="Pet_type"
-                  value={Pet_type}
-                  checked={formData.Pet_type === Pet_type}
-                  onChange={(e) => onInputChange("Pet_type", e.target.value)}
+                  name="pet_type"
+                  value={pet_type}
+                  checked={formData.pet_type === pet_type}
+                  onChange={(e) => onInputChange("pet_type", e.target.value)}
                   className="hidden"
                 />
-                {Pet_type}
+                {pet_type}
               </label>
             ))}
           </div>
@@ -87,11 +85,11 @@ export default function AIStrayForm({
           </label>
           <select 
             required 
-            name="Pet_Size" 
-            value={formData.Pet_Size}
-            onChange={(e) => onInputChange("Pet_Size", e.target.value)}
+            name="pet_size" 
+            value={formData.pet_size}
+            onChange={(e) => onInputChange("pet_size", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_Size ? "text-darkRed" : "text-grayPink"
+              formData.pet_size ? "text-darkRed" : "text-grayPink"
             }`}
             style={{
               appearance: "none",
@@ -115,11 +113,11 @@ export default function AIStrayForm({
           </label>
           <select 
             required 
-            name="Pet_physique" 
-            value={formData.Pet_physique}
-            onChange={(e) => onInputChange("Pet_physique", e.target.value)}
+            name="physique" 
+            value={formData.physique}
+            onChange={(e) => onInputChange("physique", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_physique ? "text-darkRed" : "text-grayPink"
+              formData.physique ? "text-darkRed" : "text-grayPink"
             }`}
             style={{
               appearance: "none",
@@ -137,35 +135,6 @@ export default function AIStrayForm({
           </select>
         </div>
 
-        {/* Eyes */}
-        <div className="grid grid-cols-2 gap-6 items-center mb-5">
-          <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            Eye Type: <span className="text-crimsonRed">*</span>
-          </label>
-          <select 
-            required 
-            name="Pet_eyes" 
-            value={formData.Pet_eyes}
-            onChange={(e) => onInputChange("Pet_eyes", e.target.value)}
-            className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_eyes ? "text-darkRed" : "text-grayPink"
-            }`}
-            style={{
-              appearance: "none",
-              backgroundImage: "url('/icons/dropdown-icon.png')",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "right 0.75rem center",
-              backgroundSize: "18px 10px",
-            }}
-          >
-            <option value="" className="text-grayPink" disabled> Select  </option>
-            <option value="Round" className="text-darkRed"> Round </option>
-            <option value="Almond-shaped" className="text-darkRed"> Almond-shaped </option>
-            <option value="Expressive" className="text-darkRed"> Expressive  </option>
-            <option value="Narrow" className="text-darkRed"> Narrow </option>
-          </select>
-        </div>
-
         {/* Pattern */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
@@ -173,11 +142,11 @@ export default function AIStrayForm({
           </label>
           <select 
             required 
-            name="Pet_pattern" 
-            value={formData.Pet_pattern}
-            onChange={(e) => onInputChange("Pet_pattern", e.target.value)}
+            name="pattern" 
+            value={formData.pattern}
+            onChange={(e) => onInputChange("pattern", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_pattern ? "text-darkRed" : "text-grayPink"
+              formData.pattern ? "text-darkRed" : "text-grayPink"
             }`}
             style={{
               appearance: "none",
@@ -203,11 +172,11 @@ export default function AIStrayForm({
           </label>
           <select 
             required 
-            name="Pet_fur" 
-            value={formData.Pet_fur}
-            onChange={(e) => onInputChange("Pet_fur", e.target.value)}
+            name="fur" 
+            value={formData.fur}
+            onChange={(e) => onInputChange("fur", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_fur ? "text-darkRed" : "text-grayPink"
+              formData.fur ? "text-darkRed" : "text-grayPink"
             }`}
             style={{
               appearance: "none",
@@ -233,11 +202,11 @@ export default function AIStrayForm({
           </label>
           <select 
             required 
-            name="Pet_ears" 
-            value={formData.Pet_ears}
-            onChange={(e) => onInputChange("Pet_ears", e.target.value)}
+            name="ears" 
+            value={formData.ears}
+            onChange={(e) => onInputChange("ears", e.target.value)}
             className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Pet_ears ? "text-darkRed" : "text-grayPink"
+              formData.ears ? "text-darkRed" : "text-grayPink"
             }`}
             style={{
               appearance: "none",

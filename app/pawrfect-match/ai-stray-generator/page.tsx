@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
 import PawBackground from "@/components/pawBackground";
 import AIStrayForm from "@/components/ai-stray-form";
 import GeneratedStrayImage from "@/components/generated-image";
@@ -11,7 +10,7 @@ import { lookForClosestLookingStray } from "../../microservices_api/match_ai_ser
 
 export default function AIPetGenerator() {
   const router = useRouter();
-  
+
   const [generatedImage, setGeneratedImage] = useState<string>("");
   const [generatedImageFile, setGeneratedImageFile] = useState<File | null>(null);
   const [hasGenerated, setHasGenerated] = useState<boolean>(false);
@@ -76,9 +75,12 @@ export default function AIPetGenerator() {
         console.error("API Response Error:", response.status, errText);
         throw new Error("Failed to generate image");
       }
-      const data = await response.json();
-      const imageUrl = data.image_base64;
 
+      //Image base 64
+      const data = await response.json();
+      const imageBase64 = data.image_base64;
+
+      setGeneratedImage(imageBase64);
       setHasGenerated(true);
 
       await searchSimilarStrays(preferences);
