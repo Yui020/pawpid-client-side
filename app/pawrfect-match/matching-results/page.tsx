@@ -17,6 +17,7 @@ const userInfo = {
 
 export default function MatchingResults() {
   const [result, setResult] = useState<any[]>([]);
+  const [selectedStray, setSelectedStray] = useState<any | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("matchingResult");
@@ -29,6 +30,10 @@ export default function MatchingResults() {
       }
     }
   }, []);
+
+  const handleSelectStray = (stray: any) => {
+    setSelectedStray(stray);
+  };
 
   return (
     <PawBackground>
@@ -44,7 +49,7 @@ export default function MatchingResults() {
           </p>
         </div>
 
-        {/* MAIN CONTENT: INFO + MATCH RESULTS */}
+        {/* MAIN CONTENT */}
         <div className="flex flex-col lg:flex-row gap-8">
           {/* LEFT: USER INFO */}
           <div className="flex-shrink-0 w-full lg:w-1/3">
@@ -60,9 +65,28 @@ export default function MatchingResults() {
 
             {result && result.length > 0 ? (
               <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {result.map((stray, index) => (
-                  <AIStrayCard key={index} stray={stray} />
-                ))}
+                {result.map((stray, index) => {
+                  const isSelected = selectedStray?.id === stray.id; // or stray.Stray_id depending on your data
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => handleSelectStray(stray)}
+                      className={`cursor-pointer rounded-lg transition-all duration-200 border-4 
+                        ${
+                          isSelected
+                            ? "border-[#911A1C] shadow-lg scale-105"
+                            : "border-transparent hover:border-[#911A1C]/40 hover:scale-105"
+                        }`}
+                    >
+                      <AIStrayCard stray={stray} />
+                      {isSelected && (
+                        <div className="text-center mt-2 text-[#911A1C] font-semibold">
+                          ✓ Selected
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <p className="text-gray-500">
@@ -79,7 +103,18 @@ export default function MatchingResults() {
                 ← Back
               </button>
               <button
-                className="flex items-center gap-2 bg-[#911A1C] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#6d1315] transition"
+                disabled={!selectedStray}
+                className={`flex items-center gap-2 font-semibold px-6 py-2 rounded-md transition ${
+                  selectedStray
+                    ? "bg-[#911A1C] text-white hover:bg-[#6d1315]"
+                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                }`}
+                onClick={() => {
+                  if (selectedStray) {
+                    console.log("Selected stray:", selectedStray);
+                    // you can route or save the selected stray here
+                  }
+                }}
               >
                 Next →
               </button>

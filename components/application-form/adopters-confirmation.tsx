@@ -141,42 +141,6 @@ const AdopterConfirmation: React.FC<AdopterConfirmationProps> = ({
         </div>
 
       </div>
-      
-      <div className="grid grid-cols-4 mb-6">
-        <div>
-          <label className="block font-poppins font-semibold text-darkRed mb-2">
-            Upload a valid ID:
-          </label>
-          <p className="text-xs font-poppins text-darkRed mb-2">
-            Max. file size: 8 MB.
-          </p>
-        </div>
-
-        <div className="col-span-3 relative">
-          {!formData.idFile ? (
-            <input
-              required
-              type="file"
-              accept="image/svg+xml,image/png,image/jpeg,image/jpg"
-              onChange={(e) =>
-                onInputChange("idFile", e.target.files ? e.target.files[0] : null)
-              }
-              className="block w-full border-2 font-poppins border-crimsonRed rounded-md py-2 px-3 text-darkRed file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-peachCream file:text-crimsonRed file:font-poppins file:font-semibold hover:file:bg-crimsonRed hover:file:text-white file:cursor-pointer"
-            />
-          ) : (
-            <div className="flex items-center justify-between border-2 border-crimsonRed rounded-md py-2 px-3 font-poppins text-darkRed">
-              <span className="truncate">{formData.idFile.name}</span>
-              <button
-                type="button"
-                onClick={() => onInputChange("idFile", null)}
-                className="ml-3 text-crimsonRed font-semibold hover:text-white hover:bg-crimsonRed rounded-md px-2 transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
 
       
 

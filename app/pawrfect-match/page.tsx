@@ -118,7 +118,6 @@ export default function PawrfectMatch() {
     Specific_pet: '',
     Specific_shelter: '',
     Preferred_stray_sex: '',
-    Appearance: '',
     Preferred_age: '',
     Preferred_energy_level: '',
     Sociability: '',
@@ -179,7 +178,6 @@ export default function PawrfectMatch() {
       preferencesData.Specific_pet !== '' &&
       preferencesData.Specific_shelter !== '' &&
       preferencesData.Preferred_stray_sex !== '' &&
-      preferencesData.Appearance !== '' &&
       preferencesData.Preferred_age !== '' &&
       preferencesData.Preferred_energy_level !== '' &&
       preferencesData.Sociability !== '' &&

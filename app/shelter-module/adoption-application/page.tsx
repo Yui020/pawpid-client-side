@@ -1,10 +1,15 @@
 'use client';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 import ShelterSidebar from '@/components/shelter-module/sidebar';
 import AdopterApplicationOutput from '@/components/shelter-module/application-output';
 import Review1 from '@/components/shelter-module/review-1';
+import AdopterBasicInfo from '@/components/shelter-module/basic-info1';
 
 const AdoptionApplicationPage: React.FC = () => {
+  const router = useRouter();
+
   // Temporary sample data
   const adopterData = {
     fullName: 'Kang Seulgi',
@@ -46,14 +51,8 @@ const AdoptionApplicationPage: React.FC = () => {
     appearance: 'Brown or White',
   };
 
-  // Handlers for review actions
-  const handleApprove = () => {
-    alert('Application approved for interview!');
-  };
-
-  const handleReject = () => {
-    alert('Application rejected.');
-  };
+  const handleApprove = () => alert('Application approved for interview!');
+  const handleReject = () => alert('Application rejected.');
 
   return (
     <div className="flex min-h-screen bg-[#FFF5F5]">
@@ -68,23 +67,31 @@ const AdoptionApplicationPage: React.FC = () => {
           <span className="font-semibold">Adoption Application</span>
         </div>
 
-        {/* Header */}
-        <h1 className="text-3xl md:text-4xl font-fredoka font-bold mb-2">
-          Adoption Application Details
-        </h1>
+        {/* Back Button + Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <button onClick={() => router.push('/shelter-module/adoption-requests')} aria-label="Go back"
+            className="p-2 border-2 border-[#5A1C10] rounded-full hover:bg-[#5A1C10] hover:text-white transition-colors"
+            
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-3xl md:text-4xl font-fredoka font-bold"> Adoption Application Details </h1>
+        </div>
+
         <p className="text-sm md:text-base mb-6">
           Review the adopter’s submitted application information.
         </p>
 
-        {/* Responsive Layout */}
-        <div className="flex flex-col-reverse lg:flex-row gap-8">
-          {/* Left Column (on desktop) / Bottom (on mobile) */}
-          <div className="flex-1">
+        {/* Two-Column Layout */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left Column */}
+          <div className="flex-1 flex flex-col gap-6">
+            <AdopterBasicInfo adopterData={adopterData} />
             <AdopterApplicationOutput adopterData={adopterData} />
           </div>
 
-          {/* Right Column (on desktop) / Top (on mobile) */}
-          <div className="flex justify-center lg:justify-start lg:w-1/3">
+          {/* Right Column */}
+          <div className="w-full lg:w-1/3 flex justify-center lg:justify-start">
             <Review1
               adoptionDate="October 20, 2025"
               status="Pending Review"
