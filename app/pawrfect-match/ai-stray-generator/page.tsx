@@ -156,6 +156,16 @@ export default function AIPetGenerator() {
             <div className="flex flex-col items-center justify-center">
               <GeneratedStrayImage imageUrl={generatedImage} loading={loading} />
             </div>
+
+            {/* FIND MATCHING BUTTON */}
+            <div className="flex flex-col items-center justify-center">
+              <button
+                type="submit"
+                className=" bg-darkRed text-white px-5 py-3 rounded-md font-semibold mb-2 hover:bg-crimsonRed transition"
+              >
+                Find Matching Strays
+              </button>
+            </div>
             
             {/* STRAY MATCH RESULTS */}
             {hasGenerated && (
