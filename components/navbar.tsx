@@ -40,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-darkRed fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between">
+    <nav className="bg-darkRed fixed font-poppins top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between">
       {/* LOGO */}
       <Link href="/" className="hover:opacity-90 transition">
         <Image src="/assets/pawpid-logo.png" alt="Pawpid Logo" width={120} height={40} />

@@ -1,102 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShelterSidebar from "@/components/shelter-module/sidebar";
 import ShelterStrayCard from "@/components/shelter-module/shelter-stray-card";
 import ShelterStrayDetailsModal from "@/components/shelter-module/stray-details-modal";
 import Image from "next/image";
 import { Search } from "lucide-react";
+import AddStrayModal from "@/components/shelter-module/add-stray-modal";
+import { fetchStrays } from "@/app/microservices_api/fetchStrays";
 
 export default function ShelterHome() {
   const [selectedStray, setSelectedStray] = useState<any>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [strays, setStrays] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const shelterId = 1;
 
-  // dummy data
-  const strays = [
-    {
-      Stray_id: "STR001",
-      Stray_name: "Buddy",
-      Sex: "Male",
-      Age_group: "Adult",
-      Pet_Size: "Medium",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Energetic and loves to play!",
-      Species_type: "Dog",
-      Energy_level: "High",
-      Sociability: "Friendly",
-      Medical_needs: "None",
-      SpayNeuter: "Yes",
-    },
-    {
-      Stray_id: "STR002",
-      Stray_name: "Mimi",
-      Sex: "Female",
-      Age_group: "Adult",
-      Pet_Size: "Small",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Calm and loves cuddles.",
-      Species_type: "Cat",
-      Energy_level: "Medium",
-      Sociability: "Gentle",
-      Medical_needs: "Vaccination due next month",
-      SpayNeuter: "No",
-    },
-    {
-      Stray_id: "STR003",
-      Stray_name: "Shadow",
-      Sex: "Male",
-      Age_group: "Adult",
-      Pet_Size: "Large",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Protective but kind-hearted.",
-      Species_type: "Dog",
-      Energy_level: "Moderate",
-      Sociability: "Good with humans",
-      Medical_needs: "None",
-      SpayNeuter: "Yes",
-    },
-    {
-      Stray_id: "STR004",
-      Stray_name: "Luna",
-      Sex: "Female",
-      Age_group: "Kitten",
-      Pet_Size: "Small",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Curious and playful kitten.",
-      Species_type: "Cat",
-      Energy_level: "Very High",
-      Sociability: "Loves attention",
-      Medical_needs: "Deworming due",
-      SpayNeuter: "No",
-    },
-    {
-      Stray_id: "STR005",
-      Stray_name: "Rex",
-      Sex: "Male",
-      Age_group: "Adult",
-      Pet_Size: "Large",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Calm and loyal companion.",
-      Species_type: "Dog",
-      Energy_level: "Low",
-      Sociability: "Friendly with other dogs",
-      Medical_needs: "None",
-      SpayNeuter: "Yes",
-    },
-    {
-      Stray_id: "STR006",
-      Stray_name: "Nala",
-      Sex: "Female",
-      Age_group: "Adult",
-      Pet_Size: "Medium",
-      Stray_image_public_key: "/assets/strayImage.png",
-      Stray_Background: "Loves naps and attention.",
-      Species_type: "Cat",
-      Energy_level: "Low",
-      Sociability: "Prefers quiet spaces",
-      Medical_needs: "Eye drops daily",
-      SpayNeuter: "Yes",
-    },
-  ];
+  // Fetch the strays when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedStrays = await fetchStrays(shelterId);
+        setStrays(fetchedStrays);
+      } catch (error) {
+        console.error('Error fetching strays:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [shelterId]);
+
+
+
+ // Add new stray to list
+  const handleAddStray = (newStray: any) => {
+    const formattedStray = {
+      stray_id: `STR${String(strays.length + 1).padStart(3, "0")}`,
+      stray_name: newStray.stray_name,
+      sex: newStray.sex,
+      age_group: newStray.age_group,
+      size: newStray.size,
+      stray_image: newStray.stray_image,
+      stray_Background: newStray.stray_Background,
+      species_type: newStray.species_type,
+      energy_level: newStray.energy_level,
+      sociability: newStray.training_level || "N/A",
+      medical_needs: newStray.medical_needs ? "Yes" : "None",
+      spay_neuter: newStray.spay_neuter ? "Yes" : "No",
+    };
+    setStrays((prev) => [...prev, formattedStray]);
+  };
 
   return (
     <div className="flex relative min-h-screen bg-whiteRed overflow-x-hidden">
@@ -116,45 +71,78 @@ export default function ShelterHome() {
 
       {/* Main Content */}
       <main className="ml-64 w-full px-10 py-8 relative z-10">
-        <p className="text-base font-poppins text-blackRed mb-3"> KIO &gt; Shelter &gt; Home </p>
+        <p className="text-base font-poppins text-blackRed mb-3">
+          KIO &gt; Shelter &gt; Home
+        </p>
 
-        <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2"> Welcome back! </h1>
-        <p className="text-base font-poppins text-blackRed mb-4"> Manage reports, review activity, and keep the platform safe for all learners. </p>
+        <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">
+          Welcome back!
+        </h1>
+        <p className="text-base font-poppins text-blackRed mb-4">
+          Manage reports, review activity, and keep the platform safe for all
+          learners.
+        </p>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10 max-w-3xl w-full">
-
           <div className="bg-darkRed rounded-xl shadow-md text-bgColor py-4 px-5 flex items-center justify-between sm:py-5 sm:px-6">
             <div className="text-start">
-              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">00</h2>
-              <p className="text-sm sm:text-base font-poppins">Rescued Strays</p>
+              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">
+                {strays.length.toString().padStart(2, "0")}
+              </h2>
+              <p className="text-sm sm:text-base font-poppins">
+                Rescued Strays
+              </p>
             </div>
-            <img src="/assets/straysInMyCareImage.png" alt="Rescued Strays" className="w-20 h-20 sm:w-15 sm:h-15 object-contain" />
+            <img
+              src="/assets/straysInMyCareImage.png"
+              alt="Rescued Strays"
+              className="w-20 h-20 sm:w-15 sm:h-15 object-contain"
+            />
           </div>
 
           <div className="bg-darkRed rounded-xl shadow-md text-bgColor py-4 px-5 flex items-center justify-between sm:py-5 sm:px-6">
             <div className="text-start">
-              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">00</h2>
-              <p className="text-sm sm:text-base font-poppins">Adopted Strays</p>
+              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">
+                00
+              </h2>
+              <p className="text-sm sm:text-base font-poppins">
+                Adopted Strays
+              </p>
             </div>
-            <img src="/assets/shelterImage.png"  alt="Adopted Strays" className="w-20 h-20 sm:w-15 sm:h-15 object-contain" />
+            <img
+              src="/assets/shelterImage.png"
+              alt="Adopted Strays"
+              className="w-20 h-20 sm:w-15 sm:h-15 object-contain"
+            />
           </div>
-
 
           <div className="bg-darkRed rounded-xl shadow-md text-bgColor py-4 px-5 flex items-center justify-between sm:py-5 sm:px-6">
             <div className="text-start">
-              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">00</h2>
-              <p className="text-sm sm:text-base font-poppins">Spayed/Neutered</p>
+              <h2 className="text-xl sm:text-2xl font-fredoka font-bold mb-1">
+                00
+              </h2>
+              <p className="text-sm sm:text-base font-poppins">
+                Spayed/Neutered
+              </p>
             </div>
-            <img src="/assets/boneImage.png" alt="Spayed/Neutered" className="w-20 h-20 sm:w-15 sm:h-15 object-contain" />
+            <img
+              src="/assets/boneImage.png"
+              alt="Spayed/Neutered"
+              className="w-20 h-20 sm:w-15 sm:h-15 object-contain"
+            />
           </div>
         </div>
 
         <section>
-          <h2 className="text-3xl md:text-4xl font-fredoka font-extrabold text-red-gradient text-center mb-1"> Pet Profile Management </h2>
-          <p className="text-base font-poppins text-blackRed text-center mb-8"> Manage your rescue strays </p>
+          <h2 className="text-3xl md:text-4xl font-fredoka font-extrabold text-red-gradient text-center mb-1">
+            Pet Profile Management
+          </h2>
+          <p className="text-base font-poppins text-blackRed text-center mb-8">
+            Manage your rescue strays
+          </p>
 
-           {/* Search and Filters */}
+          {/* Search and Filters */}
           <div className="flex flex-wrap justify-center gap-3 mb-5">
             {/* Search Bar */}
             <div className="flex items-center border border-crimsonRed rounded-md p-2 w-full max-w-md bg-white">
@@ -170,6 +158,7 @@ export default function ShelterHome() {
             <div>
               <select
                 name="Species"
+                defaultValue=""
                 className="w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed text-darkRed"
                 style={{
                   appearance: "none",
@@ -250,38 +239,53 @@ export default function ShelterHome() {
             </div>
 
             {/* Add Button */}
-            <button className="bg-darkRed hover:bg-red-800 text-bgColor font-poppins font-semibold px-4 py-2 rounded-md shadow-md transition-all">
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="bg-darkRed hover:bg-red-800 text-bgColor font-poppins font-semibold px-4 py-2 rounded-md shadow-md transition-all"
+            >
               + Add new Stray
             </button>
-          
           </div>
 
-          {/* Cards grid with scroll limit */}
+          {/* Cards Grid */}
           <div
             className="grid gap-5 pr-5 py-5 items-start overflow-y-auto shadow-xs"
             style={{
               gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              maxHeight: "750px", // ~3 rows
+              maxHeight: "750px",
               paddingRight: "15px",
               paddingLeft: "5px",
             }}
           >
-            {strays.map((stray) => (
-              <ShelterStrayCard
-                key={stray.Stray_id}
-                stray={stray}
-                onExpand={() => setSelectedStray(stray)}
-              />
-            ))}
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              strays.map((stray, index) => (
+                <ShelterStrayCard
+                  key={stray.Stray_id || index}
+                  stray={stray}
+                  onExpand={() => setSelectedStray(stray)}
+                />
+              ))
+            )}
           </div>
         </section>
       </main>
 
-      {/* Modal */}
+      {/* Details Modal */}
       {selectedStray && (
         <ShelterStrayDetailsModal
           stray={selectedStray}
           onClose={() => setSelectedStray(null)}
+        />
+      )}
+
+      {/* Add Stray Modal */}
+      {showAddModal && (
+        <AddStrayModal
+          onClose={() => setShowAddModal(false)}
+          onAdd={handleAddStray}
+          shelterId={1}
         />
       )}
     </div>

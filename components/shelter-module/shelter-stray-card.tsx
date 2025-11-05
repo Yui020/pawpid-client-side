@@ -25,31 +25,41 @@ export default function ShelterStrayCard({
   onArchive,
   onExpand,
 }: ShelterStrayCardProps) {
+  // Default values if any stray property is missing
+  const {
+    Stray_id = "N/A",
+    Stray_name = "Unknown",
+    Sex = "N/A",
+    Age_group = "Unknown",
+    Pet_Size = "Unknown",
+    Stray_image_public_key = "/assets/default-image.png", // Use a default image if no image is provided
+  } = stray;
+
   return (
     <div className="bg-[#f6c7a1] text-[#5a0001] rounded-2xl shadow-[4px_4px_0_#5a0001] p-4 sm:p-5 w-full max-w-[400px] md:max-w-[300px] border-2 border-[#5a0001] transition-transform hover:scale-[1.02] hover:shadow-[6px_6px_0_#5a0001]">
       {/* Image */}
       <img
-        src={stray.Stray_image_public_key}
-        alt={stray.Stray_name}
+        src={Stray_image_public_key}
+        alt={Stray_name}
         className="w-full h-44 sm:h-48 md:h-44 object-cover rounded-xl"
       />
 
       {/* Info */}
       <div className="mt-3">
         <h2 className="text-3xl text-darkRed sm:text-2xl font-extrabold font-fredoka leading-tight break-words">
-          {stray.Stray_name}
+          {Stray_name}
         </h2>
         <p className="font-bold text-crimsonRed font-poppins text-base sm:text-sm mt-1 break-words">
           Stray ID:{" "}
-          <span className="font-normal text-darkRed">{stray.Stray_id}</span>
+          <span className="font-normal text-darkRed">{Stray_id}</span>
         </p>
 
         <div className="mt-2 text-xs sm:text-sm font-medium font-poppins">
           <div className="grid grid-cols-2 gap-y-2 gap-x-8">
             {[
-              { label: "Sex:", value: stray.Sex },
-              { label: "Age:", value: stray.Age_group },
-              { label: "Size:", value: stray.Pet_Size },
+              { label: "Sex:", value: Sex },
+              { label: "Age:", value: Age_group },
+              { label: "Size:", value: Pet_Size },
             ].map((item, index) => (
               <div
                 key={index}
@@ -59,7 +69,7 @@ export default function ShelterStrayCard({
                   {item.label}
                 </span>
                 <span className="border border-darkRed rounded-lg px-2 py-0.5 text-center">
-                  {item.value}
+                  {item.value || "N/A"}  {/* Ensure fallback value */}
                 </span>
               </div>
             ))}
