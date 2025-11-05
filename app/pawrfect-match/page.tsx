@@ -3,66 +3,70 @@
 import Image from "next/image";
 import PawBackground from '@/components/pawBackground';
 import AdopterBasicInfo from "@/components/adopterBasicInfo";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import AdopterInfo from "@/components/application-form/adopters-info";
 import AdopterLifestyle from "@/components/application-form/adopters-lifestyle";
 import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
-import { useRouter } from 'next/navigation';
 import { getMatchingPrediction } from "../microservices_api/match_ai_services/getMatchingPrediction";
-import { extractImageFeatureVectorUpload } from "../microservices_api/match_ai_services/SimilarStray";
 
 export default function PawrfectMatch() {
-
-  //---------------- Handle Prediction 
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<any>(null);
-
-    const handlePredict = async () => {
-      setLoading(true);
-      /*
-      try {
-        const data = await getMatchingPrediction({
-          species_type: preferencesData.Specific_pet,
-          used_ai: false,
-          id_list: [1, 2, 3],
-          building_type: lifestyleData.Building_type,
-          daily_care: readinessData.Care_responsible_person, 
-          monthly_pet_budget_range: "Low",  //Lagyan ng field para dito
-          backup_caregiver: readinessData.Vacation_caretaker, //papalitan ng Yes or No yung fields
-          work_hours_type: "Remote", //paplitan ng values na nasa gsheets
-          hours_pet_left_alone: readinessData.Hours_pet_left_alone, //ex: 0 to 2, Change value, base on gheets
-          has_other_pets: readinessData.Have_other_pets,
-          past_pets: readinessData.Had_pets_before,
-          sex_preference: preferencesData.Preferred_stray_sex,
-          age_preference: preferencesData.Preferred_age,
-          energy_preferencee: preferencesData.Preferred_energy_level,
-        });
-
-        setResult(data);  
-        console.log("Prediction result:", data);
-        localStorage.removeItem("matchingResult");
-        localStorage.setItem("matchingResult", JSON.stringify(data));
-        router.push("/pawrfect-match/matching-results"); 
-
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-        */
-    };
-
-
-  //--------- Handle Similarity 
-
-
-//-------------------------------------------
-
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   
+  // Check for step parameter in URL on mount
+  useEffect(() => {
+    const stepParam = searchParams.get('step');
+    if (stepParam) {
+      const step = parseInt(stepParam);
+      if (step >= 1 && step <= 5) {
+        setCurrentStep(step);
+      }
+    }
+  }, [searchParams]);
+
+  //---------------- Handle Prediction 
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+
+  const handlePredict = async () => {
+    setLoading(true);
+    /*
+    try {
+      const data = await getMatchingPrediction({
+        species_type: preferencesData.Specific_pet,
+        used_ai: false,
+        id_list: [1, 2, 3],
+        building_type: lifestyleData.Building_type,
+        daily_care: readinessData.Care_responsible_person, 
+        monthly_pet_budget_range: readinessData.Monthy_budget,
+        backup_caregiver: readinessData.Vacation_caretaker,
+        work_hours_type: readinessData.Work_Type,
+        hours_pet_left_alone: readinessData.Hours_pet_left_alone,
+        has_other_pets: readinessData.Have_other_pets,
+        past_pets: readinessData.Had_pets_before,
+        sex_preference: preferencesData.Preferred_stray_sex,
+        age_preference: preferencesData.Preferred_age,
+        energy_preferencee: preferencesData.Preferred_energy_level,
+      });
+
+      setResult(data);  
+      console.log("Prediction result:", data);
+      localStorage.removeItem("matchingResult");
+      localStorage.setItem("matchingResult", JSON.stringify(data));
+      router.push("/pawrfect-match/matching-results"); 
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+    */
+  };
+
   const userInfo = {
     fullName: 'Kang Seulgi',
     birthdate: 'MM/DD/YYYY',
@@ -83,7 +87,6 @@ export default function PawrfectMatch() {
     Phone_number: '',
     Email: '',
     AgreeToTerms: false
-
   });
 
   // Lifestyle
@@ -103,82 +106,97 @@ export default function PawrfectMatch() {
     Had_pets_before: '',
     Care_responsible_person: '',
     Financial_responsible_person: '',
+    Monthy_budget: '',
     Vacation_caretaker: '',
     Hours_pet_left_alone: '',
+    Work_Type: '',
     Introduction_steps: ''
   });
 
   // Preferences
   const [preferencesData, setPreferencesData] = useState({
-  Specific_pet: '',
-  Specific_shelter: '',
-  Preferred_stray_sex: '',
-  Appearance: '',
-  Preferred_age: '',
-  Preferred_energy_level: '',
-  Sociability: '',
-  Personality: '',
-  Open_to_stray_with_med_needs: '',
-  Specific_appearance: ''
+    Specific_pet: '',
+    Specific_shelter: '',
+    Preferred_stray_sex: '',
+    Appearance: '',
+    Preferred_age: '',
+    Preferred_energy_level: '',
+    Sociability: '',
+    Personality: '',
+    Open_to_stray_with_med_needs: '',
+    Specific_appearance: ''
   });
-
-  // AI GENERATOR
-  const AiGenerator = ({ onNext, onBack }: { onNext: () => void; onBack: () => void }) => (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold text-[#5C1414] mb-4">AI Recommendation</h2>
-      <p className="text-gray-700 mb-6">Here are your AI-generated stray matches...</p>
-      <div className="flex justify-between mt-6">
-        <button
-          type="button"
-          onClick={onBack}
-          className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
-        >
-          ← Back
-        </button>
-        <button
-          type="button"
-          onClick={onNext}
-          className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
-        >
-          Next →
-        </button>
-      </div>
-    </div>
-  );
-
-  // MATCH RESULTS
-  const MatchResults = ({ onNext, onBack }: { onNext: () => void; onBack: () => void }) => (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold text-[#5C1414] mb-4">Your Matches</h2>
-      <p className="text-gray-700 mb-6">Here are the best stray matches based on your preferences...</p>
-      <div className="flex justify-between mt-6">
-        <button
-          type="button"
-          onClick={onBack}
-          className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
-        >
-          ← Back
-        </button>
-        <button
-          type="button"
-          onClick={onNext}
-          className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
-        >
-          Next →
-        </button>
-      </div>
-    </div>
-  );
-
 
   // Confirmation
   const [confirmationData, setConfirmationData] = useState({
-    idFile: null,
-    zoomDate: '',
-    zoomTime: '',
-    meetGreet: ''
+    idFile: null as File | null,
+    homePhotos: [] as File[],
+    interviewDate: "",
+    interviewTime: "",
+    visitShelter: "",
   });
 
+  // VALIDATION FUNCTIONS
+  const isStep1Valid = () => {
+    return (
+      adopterInfoData.Occupation.trim() !== '' &&
+      adopterInfoData.Social_media_profile.trim() !== '' &&
+      adopterInfoData.Status !== '' &&
+      adopterInfoData.Pronouns !== '' &&
+      adopterInfoData.Email.trim() !== '' &&
+      adopterInfoData.AgreeToTerms === true
+    );
+  };
+
+  const isStep2Valid = () => {
+    return (
+      lifestyleData.Building_type !== '' &&
+      lifestyleData.Renting !== '' &&
+      lifestyleData.Living_with !== '' &&
+      lifestyleData.Plan_if_moving.trim() !== '' &&
+      lifestyleData.Allergic_household_member !== '' &&
+      lifestyleData.familySupport !== '' &&
+      lifestyleData.explanation.trim() !== ''
+    );
+  };
+
+  const isStep3Valid = () => {
+    return (
+      readinessData.Have_other_pets !== '' &&
+      readinessData.Had_pets_before !== '' &&
+      readinessData.Care_responsible_person !== '' &&
+      readinessData.Financial_responsible_person !== '' &&
+      readinessData.Monthy_budget.trim() !== '' &&
+      readinessData.Vacation_caretaker !== '' &&
+      readinessData.Hours_pet_left_alone !== '' &&
+      readinessData.Work_Type !== '' &&
+      readinessData.Introduction_steps.trim() !== ''
+    );
+  };
+
+  const isStep4Valid = () => {
+    return (
+      preferencesData.Specific_pet !== '' &&
+      preferencesData.Specific_shelter !== '' &&
+      preferencesData.Preferred_stray_sex !== '' &&
+      preferencesData.Appearance !== '' &&
+      preferencesData.Preferred_age !== '' &&
+      preferencesData.Preferred_energy_level !== '' &&
+      preferencesData.Sociability !== '' &&
+      preferencesData.Personality !== '' &&
+      preferencesData.Open_to_stray_with_med_needs !== '' &&
+      preferencesData.Specific_appearance !== ''
+    );
+  };
+
+  const isStep5Valid = () => {
+    return (
+      confirmationData.idFile !== null &&
+      confirmationData.interviewDate !== "" &&
+      confirmationData.interviewTime !== "" &&
+      confirmationData.visitShelter !== ""
+    );
+  };
 
   const handleAdopterInfoChange = (field: string, value: string | boolean) => {
     setAdopterInfoData(prev => ({ ...prev, [field]: value }));
@@ -193,10 +211,13 @@ export default function PawrfectMatch() {
   };
 
   const handlePreferencesChange = (field: string, value: string) => {
-  setPreferencesData(prev => ({ ...prev, [field]: value }));
+    setPreferencesData(prev => ({ ...prev, [field]: value }));
   };
-
-  const handleConfirmationChange = (field: string, value: string | File | null) => {
+  
+  const handleConfirmationChange = (
+    field: string,
+    value: string | File | File[] | null
+  ) => {
     setConfirmationData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -206,11 +227,9 @@ export default function PawrfectMatch() {
     }
     if (currentStep === 4) {
       if (preferencesData.Specific_appearance === "Yes") {
-        // Redirect to AI Stray Generator page
         router.push("/pawrfect-match/ai-stray-generator");
         return;
       } else if (preferencesData.Specific_appearance === "Any appearance is fine") {
-        //================================ pass data here
         handlePredict();
         router.push("/pawrfect-match/matching-results");
         return;
@@ -237,9 +256,9 @@ export default function PawrfectMatch() {
       adopterInfoData,
       lifestyleData,
       readinessData, 
-      preferencesData
+      preferencesData,
+      confirmationData
     });
-    // Add your submission logic here (e.g., API call)
     alert('Form submitted successfully!');
   };
 
@@ -249,47 +268,50 @@ export default function PawrfectMatch() {
         
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-5xl font-fredoka font-extrabold text-[#911A1C] mb-2">PAWRFECT MATCH!</h1>
-          <p className="text-lg text-gray-700">
-             Discover pets that fit your lifestyle and preferences through our compatibility scoring system.
-          </p>
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">PAWRFECT MATCH!</h1>
+          <p className="text-base font-poppins text-blackRed">Discover pets that fit your lifestyle and preferences through our compatibility scoring system.</p>
         </div>
 
-        {/* Layout with Sidebar and Form */}
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* BASIC INFOO */}
-        <AdopterBasicInfo {...userInfo} />
-
+        <div className="flex flex-col lg:flex-col xl:flex-row sm:flex-col items-center gap-6">
+          
+          {/* BASIC INFO */}
+          <div className="h-auto">
+            <AdopterBasicInfo {...userInfo} />
+          </div>
+        
           {/* MAIN FORM AREA */}
           <div className="lg:w-3/4">
             
-            {/* 1. ADOPTER'S INFORMSTION */}
+            {/* 1. ADOPTER'S INFORMATION */}
             {currentStep === 1 && (
               <div>
                 <div>
-                <AdopterInfo 
-                  formData={adopterInfoData}
-                  onInputChange={handleAdopterInfoChange}
-                  onSubmit={handleNext}
-                />
-              </div>
+                  <AdopterInfo 
+                    formData={adopterInfoData}
+                    onInputChange={handleAdopterInfoChange}
+                  />
+                </div>
 
+                <div className="flex items-center justify-between gap-4 pt-5">
+                  <p className="text-darkRed text-center">
+                    To <strong>Match and Adopt a pet</strong> you need to complete some fields. Click Start...
+                  </p>
 
-                <p className="text-gray-700 mb-6 text-center pt-5">
-                  To <strong>Match and Adopt a pet</strong> you need to complete some fields. Click Start...
-                </p>
-                <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={handleStart}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    disabled={!isStep1Valid()}
+                    className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+                      isStep1Valid()
+                        ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     Start
                   </button>
-                </div>
+                </div>                 
               </div>
             )}
-
 
             {/* 2. ADOPTER'S LIFESTYLE */}
             {currentStep === 2 && (
@@ -297,20 +319,24 @@ export default function PawrfectMatch() {
                 <AdopterLifestyle 
                   formData={lifestyleData}
                   onInputChange={handleLifestyleChange}
-                  onSubmit={handleNext}
                 />
                 <div className="flex justify-between mt-6">
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    disabled={!isStep2Valid()}
+                    className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+                      isStep2Valid()
+                        ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     Next →
                   </button>
@@ -324,20 +350,24 @@ export default function PawrfectMatch() {
                 <AdopterReadiness 
                   formData={readinessData}
                   onInputChange={handleReadinessChange}
-                  onSubmit={handleNext}
                 />
                 <div className="flex justify-between mt-6">
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    disabled={!isStep3Valid()}
+                    className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+                      isStep3Valid()
+                        ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     Next →
                   </button>
@@ -351,23 +381,24 @@ export default function PawrfectMatch() {
                 <AdopterPreferences
                   formData={preferencesData}
                   onInputChange={handlePreferencesChange}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleNext();
-                  }}
                 />
                 <div className="flex justify-between mt-6">
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => handleNext()}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    disabled={!isStep4Valid()}
+                    className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+                      isStep4Valid()
+                        ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     Next →
                   </button>
@@ -381,20 +412,24 @@ export default function PawrfectMatch() {
                 <AdopterConfirmation
                   formData={confirmationData}
                   onInputChange={handleConfirmationChange}
-                  onSubmit={handleFormSubmit}
                 />
                 <div className="flex justify-between mt-6">
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="border-2 border-[#911A1C] text-[#911A1C] px-8 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition-colors font-semibold"
+                    className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={handleFormSubmit}
-                    className="bg-[#911A1C] text-white px-8 py-2 rounded-md hover:bg-[#6d1315] transition-colors font-semibold"
+                    disabled={!isStep5Valid()}
+                    className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+                      isStep5Valid()
+                        ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     Submit
                   </button>

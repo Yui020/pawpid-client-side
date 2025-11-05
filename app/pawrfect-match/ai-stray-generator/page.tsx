@@ -1,19 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import PawBackground from "@/components/pawBackground";
 import AIStrayForm from "@/components/ai-stray-form";
-import GeneratedImage from "@/components/generated-image";
+import GeneratedStrayImage from "@/components/generated-image";
 import AIStrayCard from "@/components/stray-card";
-import router from "next/router";
+import { lookForClosestLookingStray } from "../../microservices_api/match_ai_services/SimilarStray";
 
 export default function AIPetGenerator() {
-
-
+  const router = useRouter();
   
-
-  const [generatedImage, setGeneratedImage] = useState<string>("/images/sample-dog.png");
+  const [generatedImage, setGeneratedImage] = useState<string>("");
+  const [generatedImageFile, setGeneratedImageFile] = useState<File | null>(null);
+  const [hasGenerated, setHasGenerated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchingMatches, setSearchingMatches] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const [strays, setStrays] = useState<any[]>([
     {
       name: "TINA",
@@ -44,63 +48,167 @@ export default function AIPetGenerator() {
     },
   ]);
 
-  const handleGenerate = (formData: any) => {
-    console.log("Form submitted:", formData);
+  const handleGenerate = async (preferences: any) => {
+    console.log("Generating AI pet with:", preferences);
+    setLoading(true);
+    setError("");
 
-    // logic
-    setGeneratedImage("/assets/strayImage.png");
+    try {
+      const queryParams = new URLSearchParams({
+        pet_size: preferences.pet_size,
+        physique: preferences.physique,
+        pet_type: preferences.pet_type,
+        pattern: preferences.pattern,
+        fur: preferences.fur,
+        ears: preferences.ears,
+      }).toString();
+
+      const url = `https://pawpid-match-ai-service-60157892781.asia-northeast1.run.app/ai_visualizer/generate_ai_image?${queryParams}`;
+      console.log("Fetching:", url);
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { Accept: "image/jpg" },
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("API Response Error:", response.status, errText);
+        throw new Error("Failed to generate image");
+      }
+      const data = await response.json();
+      const imageUrl = data.image_base64;
+
+      setHasGenerated(true);
+
+      await searchSimilarStrays(preferences);
+
+    } catch (err) {
+      console.error("Generation error:", err);
+      setError("Failed to generate image. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-//   const handleBack = () => setCurrentStep(4);
-//   const handleNext = () => setCurrentStep(5);
+    const searchSimilarStrays = async (imageFile: File) => {
+      setSearchingMatches(true);
+      try {
+        const result = await lookForClosestLookingStray(imageFile);
+        
+        setStrays(result);
+        console.log("Similar strays found:", result);
+      } catch (err) {
+        console.error('Search error:', err);
+        setError('Failed to find similar strays. Please try again.');
+        setStrays([]);
+      } finally {
+        setSearchingMatches(false);
+      }
+    };
+
+  const handleBack = () => {
+    // Navigate back to pawrfect-match page at step 4 (preferences)
+    router.push("/pawrfect-match?step=4");
+  };
+
+  const handleNext = () => {
+    if (hasGenerated) {
+      // Navigate to pawrfect-match page at step 5 (confirmation)
+      router.push("/pawrfect-match?step=5");
+    }
+  };
 
   return (
     <PawBackground>
       <div className="container mx-auto px-6 py-10 relative z-10">
         {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-5xl font-extrabold text-[#911A1C] mb-2">
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">
             AI PET GENERATOR
           </h1>
-          <p className="text-lg text-gray-700 mx-auto">
-            Visualize your dream pet by describing your preferences. PawPid’s AI will generate
+          <p className="text-base font-poppins text-blackRed">
+            Visualize your dream pet by describing your preferences. PawPid's AI will generate
             an image and suggest real strays with similar features.
           </p>
         </div>
 
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+            {error}
+          </div>
+        )}
+
         {/* MAIN CONTENT */}
-        <div className="grid md:grid-cols-2 gap-10 items-start">
+        <div className="grid lg:grid-cols-[1fr_2.5fr] gap-10 items-start">
           
           {/* LEFT: FORM */}
-          <AIStrayForm onGenerate={handleGenerate} />
-
-          {/* RIGHT: GENERATED IMAGE */}
-          <div className="flex flex-col items-center justify-center">
-            <GeneratedImage imageUrl={generatedImage} />
+          <div>
+            <AIStrayForm onGenerate={handleGenerate} loading={loading} />
           </div>
-        </div>
+          
+          {/* RIGHT */}
+          <div className="grid md:grid-row-2 gap-5 items-start">
+            
+            {/* GENERATED IMAGE */}
+            <div className="flex flex-col items-center justify-center">
+              <GeneratedStrayImage imageUrl={generatedImage} loading={loading} />
+            </div>
+            
+            {/* STRAY MATCH RESULTS */}
+            {hasGenerated && (
+              <div>
+                <h2 className="text-center font-extrabold text-crimsonRed text-lg mb-4 tracking-wide">
+                  {searchingMatches 
+                    ? 'SEARCHING FOR MATCHING STRAYS...'
+                    : 'AVAILABLE PAWPID STRAYS THAT MATCH YOUR PREFERENCES:'}
+                </h2>
+                
+                {searchingMatches ? (
+                  <div className="text-center text-crimsonRed py-8">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-crimsonRed mx-auto"></div>
+                    <p className="mt-4">Finding similar strays...</p>
+                  </div>
+                ) : strays.length > 0 ? (
+                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {strays.map((stray, index) => (
+                      <AIStrayCard key={index} stray={stray} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-600 py-8">
+                    No matching strays found at this time.
+                  </div>
+                )}
+              </div>
+            )}
 
-        {/* STRAY MATCH RESULTS */}
-        <div className="mt-10">
-          <h2 className="text-center font-extrabold text-[#911A1C] text-lg mb-4 tracking-wide">
-            AVAILABLE PAWPID STRAYS THAT MATCH YOUR PREFERENCES:
-          </h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {strays.map((stray, index) => (
-              <AIStrayCard key={index} stray={stray} />
-            ))}
           </div>
+
         </div>
 
         {/* NAVIGATION BUTTONS */}
-            <div className="flex justify-between mt-10">
-              <button className="flex items-center gap-2 border-2 border-[#911A1C] text-[#911A1C] font-semibold px-6 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition">
-                ← Back
-              </button>
-              <button className="flex items-center gap-2 bg-[#911A1C] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#6d1315] transition">
-                Next →
-              </button>
-            </div>
+        <div className="flex justify-between mt-10">
+          <button 
+            type="button"
+            onClick={handleBack}
+            className="border-2 border-crimsonRed text-crimsonRed px-8 py-2 rounded-md hover:bg-darkRed hover:text-white transition-colors font-semibold"
+          >
+            ← Back
+          </button>
+          <button 
+            type="button"
+            onClick={handleNext}
+            disabled={!hasGenerated}
+            className={`font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
+              hasGenerated
+                ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Next →
+          </button>
+        </div>
 
       </div>
     </PawBackground>
