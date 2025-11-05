@@ -80,10 +80,10 @@ export default function AIPetGenerator() {
       const data = await response.json();
       const imageBase64 = data.image_base64;
 
+      // Set Generated Image to Variable
       setGeneratedImage(imageBase64);
       setHasGenerated(true);
-
-      await searchSimilarStrays(preferences);
+      searchSimilarStrays(imageBase64);
 
     } catch (err) {
       console.error("Generation error:", err);
@@ -93,12 +93,12 @@ export default function AIPetGenerator() {
     }
   };
 
-    const searchSimilarStrays = async (imageFile: File) => {
+    const searchSimilarStrays = async (imageBase64: string) => {
       setSearchingMatches(true);
+
       try {
-        const result = await lookForClosestLookingStray(imageFile);
-        
-        setStrays(result);
+        const result = await lookForClosestLookingStray(imageBase64);
+        setStrays(result.embedding);
         console.log("Similar strays found:", result);
       } catch (err) {
         console.error('Search error:', err);
