@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { User, LogOut } from 'lucide-react'; // ✅ Lucide icons
+import { User, LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -16,8 +16,8 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/strays-in-my-care', label: 'Strays in my Care' },
     { href: '/pawrfect-match', label: 'Pawrfect Match' },
-    // { href: '/shelters', label: 'Shelters' },
-    // { href: '/faqs', label: 'FAQs' },
+    { href: '/shelters', label: 'Shelters' },
+    { href: '/faqs', label: 'FAQs' },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -40,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-darkRed fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between shadow-xl shadow-[#460000]-2xl">
+    <nav className="bg-darkRed fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between">
       {/* LOGO */}
       <Link href="/" className="hover:opacity-90 transition">
         <Image src="/assets/pawpid-logo.png" alt="Pawpid Logo" width={120} height={40} />

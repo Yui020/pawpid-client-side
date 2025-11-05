@@ -1,14 +1,20 @@
 import { useState } from 'react';
 
-export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any) => void }) {
-  const [formData, setFormData] = useState({
-    Pet_type: '',
-    Pet_Size: '',
-    Pet_physique: '',
-    Pet_eyes: '',
-    Pet_pattern: '',
-    Pet_fur: '',
-    Pet_ears: ''
+export default function AIStrayForm({ 
+    onGenerate,
+    loading 
+  }: { 
+    onGenerate: (formData: any) => void;
+    loading?: boolean;
+  }) {
+    const [formData, setFormData] = useState({
+    Pet_type: 'Dog',
+    Pet_Size: 'Small',
+    Pet_physique: 'Lean',
+    Pet_eyes: 'Almond',
+    Pet_pattern: 'Solid',
+    Pet_fur: 'Short',
+    Pet_ears: 'Fully Floppy'
   });
 
   // Validation function to check if all fields are filled
@@ -255,20 +261,21 @@ export default function AIStrayForm({ onGenerate }: { onGenerate: (formData: any
           <strong>Disclaimer:</strong> AI Pet Generator is an optional feature designed to help visualize your preferred pet. It does not alter, replace, or affect any real stray animals in the shelters.
         </p>
 
-       {/* Submit Button */}
+      {/* Submit Button */}
       <div className="flex">
         <button 
           type="submit"
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || loading}
           className={`w-full font-poppins px-8 py-2 rounded-md transition-colors font-semibold ${
-            isFormValid()
+            isFormValid() && !loading
               ? 'bg-crimsonRed text-white hover:bg-[#6d1315] cursor-pointer'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
           }`}
         >
-          Generate AI Pet
+          {loading ? 'Generating...' : 'Generate AI Pet'}
         </button>
       </div>
+
     </form>
   );
 }

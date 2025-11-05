@@ -11,7 +11,6 @@ import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
 import { getMatchingPrediction } from "../microservices_api/match_ai_services/getMatchingPrediction";
-import { extractImageFeatureVectorUpload } from "../microservices_api/match_ai_services/SimilarStray";
 
 export default function PawrfectMatch() {
   const router = useRouter();

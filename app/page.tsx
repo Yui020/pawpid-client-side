@@ -9,11 +9,11 @@ export default function Home() {
   const [filter, setFilter] = useState("All");
   const [selectedStray, setSelectedStray] = useState<any | null>(null);
 
-  // Sample strays
+  // dummy strays
   const strays = [
     {
       name: "TINA",
-      match: "90%",
+      match: "90",
       breed: "Aspin",
       age: "Adult",
       sex: "Female",
@@ -32,7 +32,7 @@ export default function Home() {
     },
     {
       name: "COCO",
-      match: "85%",
+      match: "85",
       breed: "Puspin",
       age: "Young",
       sex: "Male",
@@ -51,7 +51,7 @@ export default function Home() {
     },
     {
       name: "BRUNO",
-      match: "78%",
+      match: "78",
       breed: "Aspen",
       age: "Puppy",
       sex: "Male",
@@ -70,7 +70,7 @@ export default function Home() {
     },
   ];
 
-    // vaccination records
+    // dummy vaccination records
   const [updates, setUpdates] = useState([
     {
       date_vaccinated: "2025-10-01",
@@ -97,57 +97,32 @@ export default function Home() {
 
       {/* MAIN CONTENT */}
       <div className="relative z-10 container mx-auto px-6 py-10 md:py-10">
-        {/* HEADER */}
+        
         <div className="mb-6">
-          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">
-            WELCOME BACK, SEULGI!
-          </h1>
-          <p className="text-base font-poppins text-blackRed">
-            Ready to meet your pawrfect match?
-          </p>
+          <h1 className="text-5xl text-red-gradient font-fredoka font-extrabold mb-2">  WELCOME BACK, SEULGI! </h1>
+          <p className="text-base font-poppins text-blackRed">  Ready to meet your pawrfect match? </p>
         </div>
 
         {/* FEATURE CARDS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-start mb-16 max-w-3xl">
+          
           {/* Pawrfect Match */}
-          <Link
-            href="/pawrfect-match"
-            className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4"
-          >
-            <Image
-              src="/assets/matchingImage.png"
-              alt="Pawfect Match"
-              width={60}
-              height={60}
-            />
+          <Link href="/pawrfect-match"
+            className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4">
+            <Image src="/assets/matchingImage.png" alt="Pawfect Match" width={60} height={60} />
             <div>
-              <h3 className="text-lg lg:text-2xl font-semibold leading-tight">
-                PAWRFECT MATCH
-              </h3>
-              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal">
-                Find your furry match.
-              </p>
+              <h3 className="text-lg lg:text-2xl font-semibold leading-tight"> PAWRFECT MATCH </h3>
+              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal"> Find your furry match.  </p>
             </div>
           </Link>
 
           {/* Strays in My Care */}
-          <Link
-            href="/strays-in-my-care"
-            className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4"
-          >
-            <Image
-              src="/assets/straysInMyCareImage.png"
-              alt="Strays in My Care"
-              width={60}
-              height={60}
-            />
+          <Link href="/strays-in-my-care"
+            className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4">
+            <Image src="/assets/straysInMyCareImage.png" alt="Strays in My Care" width={60} height={60} />
             <div>
-              <h3 className="text-lg lg:text-2xl font-semibold leading-tight">
-                STRAYS IN MY CARE
-              </h3>
-              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal">
-                Track rescued strays.
-              </p>
+              <h3 className="text-lg lg:text-2xl font-semibold leading-tight"> STRAYS IN MY CARE </h3>
+              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal"> Track rescued strays. </p>
             </div>
           </Link>
 
@@ -156,19 +131,10 @@ export default function Home() {
             href="/shelters"
             className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4"
           >
-            <Image
-              src="/assets/shelterImage.png"
-              alt="Partner Shelters"
-              width={60}
-              height={60}
-            />
+            <Image src="/assets/shelterImage.png" alt="Partner Shelters" width={60} height={60} />
             <div>
-              <h3 className="text-lg lg:text-2xl font-semibold leading-tight">
-                PARTNER SHELTERS
-              </h3>
-              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal">
-                Meet our partner shelters.
-              </p>
+              <h3 className="text-lg lg:text-2xl font-semibold leading-tight"> PARTNER SHELTERS </h3>
+              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal"> Meet our partner shelters. </p>
             </div>
           </Link>
 
@@ -177,43 +143,28 @@ export default function Home() {
             href="/faqs"
             className="bg-darkRed hover:bg-red-800 transition-all duration-200 text-bgColor font-poppins font-semibold py-4 px-6 rounded-xl shadow-md flex items-center gap-4"
           >
-            <Image
-              src="/assets/faqsImage.png"
-              alt="Adoption FAQs"
-              width={60}
-              height={60}
-            />
+            <Image src="/assets/faqsImage.png" alt="Adoption FAQs" width={60} height={60} />
             <div>
-              <h3 className="text-lg lg:text-2xl font-semibold leading-tight">
-                ADOPTION FAQS
-              </h3>
-              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal">
-                Learn before you adopt.
-              </p>
+              <h3 className="text-lg lg:text-2xl font-semibold leading-tight"> ADOPTION FAQS </h3>
+              <p className="text-sm lg:text-base mt-1 opacity-80 font-normal"> Learn before you adopt. </p>
             </div>
           </Link>
         </div>
 
         {/* STRAYS LOOKING FOR LOVE */}
         <div className="mb-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-fredoka font-extrabold text-darkRed">
-            STRAYS LOOKING FOR LOVE
-          </h2>
-          <p className="text-sm md:text-base font-poppins text-blackRed mt-1">
-            Browse adorable strays waiting to capture your heart
-          </p>
+          <h2 className="text-3xl md:text-4xl font-fredoka font-extrabold text-darkRed"> STRAYS LOOKING FOR LOVE </h2>
+          <p className="text-sm md:text-base font-poppins text-blackRed mt-1"> Browse adorable strays waiting to capture your heart </p>
         </div>
 
         {/* FILTER BUTTONS */}
         <div className="flex justify-center gap-3 mb-8">
           {["All", "Dog", "Cat", "Shelter"].map((btn) => (
-            <button
-              key={btn}
-              onClick={() => setFilter(btn)}
+            <button key={btn} onClick={() => setFilter(btn)}
               className={`px-4 py-2 rounded-md font-poppins font-semibold transition-all duration-200 ${
-                filter === btn
-                  ? "bg-darkRed text-white"
-                  : "bg-[#ffe2e6] text-darkRed hover:bg-red-100"
+              filter === btn
+                ? "bg-darkRed text-white"
+                : "bg-[#ffe2e6] text-darkRed hover:bg-red-100"
               }`}
             >
               {btn}
@@ -224,21 +175,20 @@ export default function Home() {
         {/* STRAY CARDS */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16">
           {strays.map((stray, index) => (
-            <AIStrayCard
-              key={index}
-              stray={stray}
+            <AIStrayCard key={index} stray={stray}
               onSelect={() => setSelectedStray(stray)} // modal trigger
             />
           ))}
         </div>
+
+{/* ////////////////////////////////////////////////////////// */}
 
         {/* MODAL WITH VACCINATION TABLE */}
         {selectedStray && (
           <div className="fixed px-10 inset-0 bg-blackRed/70 flex justify-center items-center z-50">
             <div className="bg-[#FFF4E6] border-2 border-crimsonRed/40 rounded-xl shadow-lg p-6 max-w-5xl w-full relative overflow-y-auto max-h-[90vh]">
               {/* CLOSE BUTTON */}
-              <button
-                onClick={() => setSelectedStray(null)}
+              <button onClick={() => setSelectedStray(null)}
                 className="absolute top-3 right-4 text-crimsonRed font-bold text-xl hover:scale-110 transition"
               >
                 ✕
@@ -246,20 +196,16 @@ export default function Home() {
 
               {/* MODAL CONTENT */}
               <div className="grid md:grid-cols-2 gap-6 font-poppins">
+                
                 {/* LEFT SIDE */}
                 <div className="grid grid-rows-2 gap-4">
-                  <div
-                    onClick={() => alert('This would open image viewer')}
-                    className="cursor-pointer overflow-hidden rounded-lg hover:opacity-90 transition"
-                  >
-                    <img
-                      src={selectedStray.image}
-                      alt={selectedStray.Stray_name}
+                  <div className="cursor-pointer overflow-hidden rounded-lg hover:opacity-90 transition">
+                    <img src={selectedStray.image} alt={selectedStray.Stray_name}
                       className="w-full h-full object-cover"
                     />
                   </div>
 
-                  <div className="text-sm text-justify text-black leading-relaxed">
+                  <div className="text-sm text-justify text-blackRed leading-relaxed">
                     {selectedStray.description}
                   </div>
                 </div>
@@ -303,9 +249,7 @@ export default function Home() {
 
 
                   <div className="mt-6">
-                    <h3 className="text-xl font-fredoka font-bold text-crimsonRed mb-2">
-                      Vaccination Record
-                    </h3>
+                    <h3 className="text-xl font-fredoka font-bold text-crimsonRed mb-2"> Vaccination Record </h3>
                     <VaccinationTable updates={updates} />
                   </div>
                 </div>

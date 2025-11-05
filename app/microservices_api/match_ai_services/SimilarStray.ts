@@ -1,20 +1,25 @@
-import axios from "axios";
+export async function lookForClosestLookingStray(preferences: any) {
+  const BASE_URL = "https://pawpid-match-ai-service-60157892781.asia-northeast1.run.app";
 
-const BASE_URL = "http://127.0.0.1:8000";
+  const queryParams = new URLSearchParams({
+    pet_size: preferences.pet_size,
+    physique: preferences.physique,
+    pet_type: preferences.pet_type,
+    pattern: preferences.pattern,
+    fur: preferences.fur,
+    ears: preferences.ears,
+  }).toString();
 
-export interface SimilarStray {
-  image: File;
-}
-
-export async function extractImageFeatureVectorUpload(file: File): Promise<SimilarStray[]> {
-  const formData = new FormData();
-
-  formData.append("file", file);
-  const response = await axios.post(`${BASE_URL}/extract_image_feature_vector_upload`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
+  const response = await fetch(`${BASE_URL}/ai_visualizer/generate_ai_image?${queryParams}`, {
+    method: "GET",
+    headers: { "Accept": "application/json" },
   });
-  return response.data;
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error("API Error:", response.status, errText);
+    throw new Error(`API Error: ${response.status}`);
+  }
+
+  return await response.json();
 }
-
-
-

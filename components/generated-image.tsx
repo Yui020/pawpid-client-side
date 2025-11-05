@@ -1,38 +1,25 @@
-//import { extractImageFeatureVectorUpload } from "../microservices_api/match_ai_services/SimilarStray";
-
-/*
-
-      const [loading, setLoading] = useState(false);
-      const [result, setResult] = useState<any>(null);
-        const handleSimilarity = async () => {
-          setLoading(true);
-          try {
-            const data = await extractImageFeatureVectorUpload({
-            });
-    
-            setResult(data);  
-            console.log("Similar looking strays:", data);
-            //Display Similar Looking strays 
-            //router.push("/pawrfect-match/ai-stray-generator/"); 
-    
-          } catch (err) {
-            console.error(err);
-          } finally {
-            setLoading(false);
-          }
-        };
-
-        */
-
-        
-export default function GeneratedStrayImage({ imageUrl }: { imageUrl?: string }) {
+export default function GeneratedStrayImage({ 
+  imageUrl,
+  loading 
+}: { 
+  imageUrl?: string;
+  loading?: boolean;
+}) {
   return (
+    
     <div className="border-2 border-crimsonRed/30 bg-[#FFF4E6] rounded-xl shadow-md p-4 mb-8">
       <div className="flex flex-col items-center">
-        <div className="w-64 h-64 border-2 border-dashed border-darkRed/40 rounded-lg overflow-hidden">
-          <img src={imageUrl || "@/assets/strayImage.png"} alt="Generated Stray"
-            className="w-full h-full object-cover"
-          />
+        <div className="w-64 h-64 border-2 border-dashed border-darkRed/40 rounded-lg overflow-hidden flex items-center justify-center">
+          {loading ? (
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-crimsonRed mx-auto mb-2"></div>
+              <p className="text-darkRed text-sm">Generating...</p>
+            </div>
+          ) : imageUrl ? (
+            <img src={imageUrl} alt="Generated Stray" className="w-full h-full object-cover" />
+          ) : (
+            <p className="text-gray-400 text-center px-4">Your generated pet will appear here</p>
+          )}
         </div>
       </div>
     </div>
