@@ -1,48 +1,39 @@
-"use client";
+import React, { useEffect } from "react";
 
-import { useState, FormEvent } from "react";
-import { X } from "lucide-react";
-
-interface AddStrayModalProps {
-  onClose: () => void;
-  onAdd: (newStray: any) => void;
+interface AdopterInformationProps {
+  formData: {
+    Occupation: string;
+    Social_media_profile: string;
+    Status: string;
+    Pronouns: string;
+    Alternate_contact: string;
+    Relationship_contact: string;
+    Phone_number: string;
+    Email: string;
+    AgreeToTerms: boolean;
+  };
+  onInputChange: (field: string, value: string | boolean) => void;
 }
 
-export default function AddStrayModal({ onClose, onAdd }: AddStrayModalProps) {
-  const [newStray, setNewStray] = useState({
-    stray_name: "",
-    species_type: "",
-    breed: "",
-    sex: "",
-    age_group: "",
-    energy_level: "",
-    sociability: "",
-    personality: "",
-    size: "",
-    medical_needs: false,
-    vaccination_status: "",
-    spay_neuter: false,
-    stray_background: "",
-    stray_image: "",
-    adoption_status: "Available",
-  });
-
-  const handleChange = (
-    field: string,
-    value: string | boolean | File | null
-  ) => {
-    setNewStray((prev) => ({
-      ...prev,
-      [field]: value instanceof File ? URL.createObjectURL(value) : value,
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    onAdd(newStray);
-    onClose();
-  };
-
+const AdopterInformation: React.FC<AdopterInformationProps> = ({
+  formData,
+  onInputChange,
+}) => {
+  // Set initial info only once when component mounts
+  useEffect(() => {
+    if (!formData.Occupation) {
+      onInputChange("Occupation", "Software Engineer");
+      onInputChange("Social_media_profile", "@kangseulgi");
+      onInputChange("Status", "single");
+      onInputChange("Pronouns", "she/her");
+      onInputChange("Alternate_contact", "Bae Joohyun");
+      onInputChange("Relationship_contact", "Sister");
+      onInputChange("Phone_number", "0900 000 0000");
+      onInputChange("Email", "seulgi@example.com");
+      onInputChange("AgreeToTerms", false);
+    }
+  }, []);
+  
   return (
     <div className="fixed inset-0 bg-blackRed/70 flex justify-center items-center z-[60] px-10">
       <div className="bg-[#FFF4E6] border-2 border-crimsonRed/40 rounded-xl shadow-lg p-6 max-w-3xl w-full relative overflow-y-auto max-h-[90vh]">

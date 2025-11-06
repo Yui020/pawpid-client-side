@@ -8,9 +8,9 @@ export default function AIStrayCard({ stray, onSelect, }: { stray: any; onSelect
 
   return (
     <div className="bg-bgColor rounded-2xl overflow-hidden shadow-lg">
-      <img src={stray.image} alt={stray.name} className="w-full h-48 object-cover" />
+      <img src={stray.image_url} alt={stray.name} className="w-full h-48 object-cover" />
       <div className="p-4">
-        <h3 className="text-2xl font-fredoka font-bold text-darkRed">{stray.name} - {stray.match}%</h3>
+        <h3 className="text-2xl font-fredoka font-bold text-darkRed">{stray.name} - {((20 - stray.distance) / 19 * 100).toFixed(0)}%</h3>
         <div className="flex flex-wrap gap-2 mt-2 text-sm">
           {[stray.breed, stray.age, stray.sex, stray.size].map((tag, i) => (
             <span

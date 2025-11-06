@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import AIStrayCard from "@/components/stray-card";
+import AIStrayCard from "@/components/stray-card3";
 import VaccinationTable from "@/components/vaccinationTable";
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
     },
     {
       name: "COCO",
-      match: "85",
+      match: 85,
       breed: "Puspin",
       age: "Young",
       sex: "Male",

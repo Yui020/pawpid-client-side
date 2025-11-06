@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import PawBackground from "@/components/pawBackground";
-import AIStrayCard from "@/components/stray-card";
+import AIStrayCard from "@/components/stray-card3";
 import VaccinationTable from "@/components/vaccinationTable";
 
 export default function StraysInMyCare() {
@@ -31,7 +31,7 @@ export default function StraysInMyCare() {
   const [strays, setStrays] = useState<any[]>([
     {
       name: "TINA",
-      match: "90%",
+      match: "90",
       breed: "Aspin",
       age: "Adult",
       sex: "Female",

@@ -5,6 +5,7 @@ import PawBackground from '@/components/pawBackground';
 import AdopterBasicInfo from "@/components/adopterBasicInfo";
 import AIStrayCard from "@/components/stray-card1";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const userInfo = {
   fullName: 'Kang Seulgi',
@@ -16,20 +17,60 @@ const userInfo = {
 };
 
 export default function MatchingResults() {
+  const router = useRouter();
   const [result, setResult] = useState<any[]>([]);
   const [selectedStray, setSelectedStray] = useState<any | null>(null);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("matchingResult");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setResult(parsed);
-      } catch (error) {
-        console.error("Failed to parse stored matching result:", error);
-      }
-    }
-  }, []);
+  /*
+  const item = localStorage.getItem("allAdopterDetails");
+  if (item) {
+    const storedAdopterDetails = JSON.parse(item);
+    console.log(storedAdopterDetails);
+  } else {
+    console.log("No adopter details found in localStorage");
+  }
+  */
+    useEffect(() => {
+      const loadResults = () => {
+        const stored = localStorage.getItem("matchingResult");
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            setResult(parsed);
+          } catch (error) {
+            console.error("Failed to parse stored matching result:", error);
+          }
+        }
+      };
+
+      loadResults();
+      window.addEventListener("matchingResultUpdated", loadResults);
+
+      return () => window.removeEventListener("matchingResultUpdated", loadResults);
+    }, []);
+
+  const handleSelectStray = (stray: any) => {
+    setSelectedStray(stray);
+  };
+
+  const handleBack = () => {
+    // Navigate back to pawrfect-match page at step 4 (preferences)
+    router.push("/pawrfect-match?step=4");
+  };
+
+ const handleNext = () => {
+  if (!selectedStray) return;
+
+  const topFourStrays = result.slice(0, 4);
+  const combinedSelection = {
+    selectedStray,
+    topFourStrays
+  };
+
+  localStorage.setItem("selectedMatchingResult", JSON.stringify(combinedSelection));
+
+  router.push("/pawrfect-match?step=5");
+};
 
   const handleSelectStray = (stray: any) => {
     setSelectedStray(stray);
@@ -98,10 +139,10 @@ export default function MatchingResults() {
             <div className="flex justify-between mt-10">
               <button
                 className="flex items-center gap-2 border-2 border-[#911A1C] text-[#911A1C] font-semibold px-6 py-2 rounded-md hover:bg-[#911A1C] hover:text-white transition"
-                onClick={() => history.back()}
-              >
+                onClick={handleBack}>
                 ← Back
               </button>
+
               <button
                 disabled={!selectedStray}
                 className={`flex items-center gap-2 font-semibold px-6 py-2 rounded-md transition ${
@@ -109,12 +150,8 @@ export default function MatchingResults() {
                     ? "bg-[#911A1C] text-white hover:bg-[#6d1315]"
                     : "bg-gray-300 text-gray-600 cursor-not-allowed"
                 }`}
-                onClick={() => {
-                  if (selectedStray) {
-                    console.log("Selected stray:", selectedStray);
-                    // you can route or save the selected stray here
-                  }
-                }}
+                onClick={handleNext}
+
               >
                 Next →
               </button>

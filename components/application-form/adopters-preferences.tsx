@@ -48,8 +48,6 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
             <option value="" className="text-grayPink" disabled>Select</option>
             <option value="Cat" className="text-darkRed">Cat</option>
             <option value="Dog" className="text-darkRed">Dog</option>
-            <option value="Both" className="text-darkRed">Both</option>
-            <option value="Not Decided" className="text-darkRed">Not Decided</option>
           </select>
         </div>
 
@@ -108,7 +106,6 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
           </div>
         </div>
 
-
         {/* Age Group */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
           <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
@@ -130,7 +127,6 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
             }}
           >
             <option value="" className="text-grayPink" disabled>Select</option>
-            <option className="text-darkRed">Kitten/Puppy</option>
             <option className="text-darkRed">Young</option>
             <option className="text-darkRed">Adult</option>
             <option className="text-darkRed">Senior</option>
