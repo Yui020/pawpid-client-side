@@ -5,7 +5,6 @@ interface AdopterPreferencesProps {
     Specific_pet: string;
     Specific_shelter: string;
     Preferred_stray_sex: string;
-    Appearance: string;
     Preferred_age: string;
     Preferred_energy_level: string;
     Sociability: string;
@@ -49,8 +48,6 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
             <option value="" className="text-grayPink" disabled>Select</option>
             <option value="Cat" className="text-darkRed">Cat</option>
             <option value="Dog" className="text-darkRed">Dog</option>
-            <option value="Both" className="text-darkRed">Both</option>
-            <option value="Not Decided" className="text-darkRed">Not Decided</option>
           </select>
         </div>
 
@@ -109,33 +106,7 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
           </div>
         </div>
 
-        {/* Appearance */}
-        <div className="grid grid-cols-2 gap-6 items-center mb-5">
-          <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">
-            What kind of appearance do you prefer?
-          </label>
-          <select
-            required
-            value={formData.Appearance}
-            onChange={(e) => onInputChange('Appearance', e.target.value)}
-            className={`w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ${
-              formData.Appearance ? "text-darkRed" : "text-grayPink"
-            }`}
-            style={{
-              appearance: "none",
-              backgroundImage: "url('/icons/dropdown-icon.png')",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "right 0.75rem center",
-              backgroundSize: "18px 10px",
-            }}
-          >
-            <option value="" className="text-grayPink" disabled>Select</option>
-            <option className="text-darkRed">Black</option>
-            <option className="text-darkRed">White</option>
-            <option className="text-darkRed">Brown</option>
-            <option className="text-darkRed">Gray</option>
-          </select>
-        </div>
+
 
         {/* Age Group */}
         <div className="grid grid-cols-2 gap-6 items-center mb-5">
@@ -158,7 +129,6 @@ export default function AdopterPreferences({ formData, onInputChange, onSubmit }
             }}
           >
             <option value="" className="text-grayPink" disabled>Select</option>
-            <option className="text-darkRed">Kitten/Puppy</option>
             <option className="text-darkRed">Young</option>
             <option className="text-darkRed">Adult</option>
             <option className="text-darkRed">Senior</option>

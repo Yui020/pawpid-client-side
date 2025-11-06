@@ -241,7 +241,6 @@ const AdopterConfirmation: React.FC<AdopterConfirmationProps> = ({
           ))}
         </div>
       </div>
-
     </form>
   );
 };

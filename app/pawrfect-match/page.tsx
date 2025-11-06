@@ -16,7 +16,8 @@ export default function PawrfectMatch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
-  
+  const [used_ai, setUsed_Ai] = useState<boolean>(false);
+
   // Check for step parameter in URL on mount
   useEffect(() => {
     const stepParam = searchParams.get('step');
@@ -34,11 +35,11 @@ export default function PawrfectMatch() {
 
   const handlePredict = async () => {
     setLoading(true);
-    /*
     try {
       const data = await getMatchingPrediction({
         species_type: preferencesData.Specific_pet,
-        used_ai: false,
+        used_ai: used_ai,
+        model_type: "rf",
         id_list: [1, 2, 3],
         building_type: lifestyleData.Building_type,
         daily_care: readinessData.Care_responsible_person, 
@@ -50,13 +51,13 @@ export default function PawrfectMatch() {
         past_pets: readinessData.Had_pets_before,
         sex_preference: preferencesData.Preferred_stray_sex,
         age_preference: preferencesData.Preferred_age,
-        energy_preferencee: preferencesData.Preferred_energy_level,
+        energy_preference: preferencesData.Preferred_energy_level,
       });
-
       setResult(data);  
       console.log("Prediction result:", data);
       localStorage.removeItem("matchingResult");
       localStorage.setItem("matchingResult", JSON.stringify(data));
+      window.dispatchEvent(new Event("matchingResultUpdated"));
       router.push("/pawrfect-match/matching-results"); 
 
     } catch (err) {
@@ -64,7 +65,7 @@ export default function PawrfectMatch() {
     } finally {
       setLoading(false);
     }
-    */
+  
   };
 
   const userInfo = {
@@ -118,7 +119,6 @@ export default function PawrfectMatch() {
     Specific_pet: '',
     Specific_shelter: '',
     Preferred_stray_sex: '',
-    Appearance: '',
     Preferred_age: '',
     Preferred_energy_level: '',
     Sociability: '',
@@ -179,7 +179,6 @@ export default function PawrfectMatch() {
       preferencesData.Specific_pet !== '' &&
       preferencesData.Specific_shelter !== '' &&
       preferencesData.Preferred_stray_sex !== '' &&
-      preferencesData.Appearance !== '' &&
       preferencesData.Preferred_age !== '' &&
       preferencesData.Preferred_energy_level !== '' &&
       preferencesData.Sociability !== '' &&
@@ -227,11 +226,12 @@ export default function PawrfectMatch() {
     }
     if (currentStep === 4) {
       if (preferencesData.Specific_appearance === "Yes") {
+        setUsed_Ai(true)
         router.push("/pawrfect-match/ai-stray-generator");
         return;
       } else if (preferencesData.Specific_appearance === "Any appearance is fine") {
+        setUsed_Ai(false)
         handlePredict();
-        router.push("/pawrfect-match/matching-results");
         return;
       }
     }
@@ -262,6 +262,18 @@ export default function PawrfectMatch() {
     alert('Form submitted successfully!');
   };
 
+  /*
+    useEffect(() => {
+      const allAdopterDetails = {
+        lifestyleData,
+        readinessData,
+        preferencesData,
+        confirmationData,
+      };
+      localStorage.setItem("allAdopterDetails", JSON.stringify(allAdopterDetails));
+    }, [adopterInfoData, lifestyleData, readinessData, preferencesData, confirmationData]);
+  
+    */
   return (
     <PawBackground>
       <div className="container mx-auto px-6 py-8 relative z-10">

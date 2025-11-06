@@ -91,8 +91,8 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
             }}
           >
             <option value="" className="text-grayPink" disabled>Select</option>
-            <option value="Daily_Self" className="text-darkRed">Me</option>
-            <option value="Daily_Shared" className="text-darkRed">Shared Responsibility</option>
+            <option value="Daily_Self" className="text-darkRed">Self</option>
+            <option value="Daily_Shared" className="text-darkRed">Shared</option>
             <option value="Daily_Family_Member" className="text-darkRed">Family Member</option>
           </select>
         </div>
@@ -137,8 +137,8 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
             }}
           >
             <option value="" className="text-grayPink" disabled>Select</option>
-            <option value="Financial_Self" className="text-darkRed">Me</option>
-            <option value="Financial_Shared" className="text-darkRed">Shared Responsibility</option>
+            <option value="Financial_Self" className="text-darkRed">Self</option>
+            <option value="Financial_Shared" className="text-darkRed">Shared</option>
             <option value="Financial_Family_Member" className="text-darkRed">Family Member</option>
           </select>
         </div>
@@ -161,21 +161,35 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
               }}
             >
               <option value="" className="text-grayPink" disabled>Select Hours Pet Left Alone</option>
-              <option value="Pet_Alone_1" className="text-darkRed">0 to 2 hours</option>
-              <option value="Pet_Alone_2" className="text-darkRed">3 to 6 hours</option>
-              <option value="Pet_Alone_3" className="text-darkRed">7 to 12 hours</option>
-              <option value="Pet_Alone_4" className="text-darkRed">More than 12 hours</option>
+              <option value="Pet_Alone_1" className="text-darkRed">0 to 2</option>
+              <option value="Pet_Alone_2" className="text-darkRed">3 to 6</option>
+              <option value="Pet_Alone_3" className="text-darkRed">7 to 12</option>
+              <option value="Pet_Alone_4" className="text-darkRed">More than 12</option>
             </select>
         </div>
 
         {/* Monthly Pet Budget */}
           <div>
-            <label className="block font-poppins font-semibold text-sm text-darkRed mb-1">What is your estimated monthly budget for your pet's care (food, grooming, health, etc.)?</label>
-            <input required type="text" value={formData.Monthy_budget} placeholder="Enter here.."
-              onChange={(e) => onInputChange('Monthy_budget', e.target.value)}
-              className="w-full px-4 py-2 border font-poppins placeholder-grayPink border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed"
-            />
-          </div>
+          <label className="block font-poppins font-semibold text-sm text-darkRed mb-1"> What is your estimated monthly budget for your pet's care (food, grooming, health, etc.)?</label>
+
+           <select required name="Monthy_budget" value={formData.Monthy_budget}
+              onChange={(e) => onInputChange("Monthy_budget", e.target.value)}
+              className={ `w-full px-4 py-2 pr-8 border font-poppins border-crimsonRed rounded-md focus:outline-none focus:ring-2 focus:ring-crimsonRed ` +
+              (formData.Monthy_budget ? "text-darkRed" : "text-grayPink")}
+              style={{
+                appearance: "none",
+                backgroundImage: "url('/icons/dropdown-icon.png')",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 0.75rem center",
+                backgroundSize: "18px 10px",
+              }}
+            >
+              <option value="" className="text-grayPink" disabled>Select</option>
+              <option value="Low" className="text-darkRed">Low</option>
+              <option value="Medium" className="text-darkRed">Medium</option>
+              <option value="High" className="text-darkRed">High</option>
+            </select>
+        </div>
 
         {/* Work Type */}
         <div>
@@ -194,9 +208,9 @@ const AdopterReadiness: React.FC<AdopterReadinessProps> = ({ formData, onInputCh
               }}
             >
               <option value="" className="text-grayPink" disabled>Select Work Arrangement</option>
-              <option value="Remote" className="text-darkRed">Remote (work from home)</option>
-              <option value="Hybrid" className="text-darkRed">Hybrid (mix of home and office)</option>
-              <option value="On-site" className="text-darkRed">On-site (office/workplace)</option>
+              <option value="Remote" className="text-darkRed">Remote</option>
+              <option value="Hybrid" className="text-darkRed">Hybrid</option>
+              <option value="On-site" className="text-darkRed">On-site</option>
             </select>
         </div>
 

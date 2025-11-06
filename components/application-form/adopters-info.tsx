@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface AdopterInformationProps {
   formData: {
-    Occupation : string;
+    Occupation: string;
     Social_media_profile: string;
     Status: string;
     Pronouns: string;
@@ -19,6 +19,21 @@ const AdopterInformation: React.FC<AdopterInformationProps> = ({
   formData,
   onInputChange,
 }) => {
+  // Set initial info only once when component mounts
+  useEffect(() => {
+    if (!formData.Occupation) {
+      onInputChange("Occupation", "Software Engineer");
+      onInputChange("Social_media_profile", "@kangseulgi");
+      onInputChange("Status", "single");
+      onInputChange("Pronouns", "she/her");
+      onInputChange("Alternate_contact", "Bae Joohyun");
+      onInputChange("Relationship_contact", "Sister");
+      onInputChange("Phone_number", "0900 000 0000");
+      onInputChange("Email", "seulgi@example.com");
+      onInputChange("AgreeToTerms", false);
+    }
+  }, []);
+  
   return (
     <div>
       
