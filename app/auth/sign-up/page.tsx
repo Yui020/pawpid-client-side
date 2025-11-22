@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signUp } from "@/app/__backend/auth/sign_up"
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -23,12 +24,14 @@ export default function SignUpPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSignUp = (e: React.FormEvent) => {
-  e.preventDefault();
-  console.log("Signed up with:", formData.email);
-
-    // After successful sign up
-    router.push("//");
+  async function handleSignUp() {
+    const result = await signUp(formData.email, formData.password)
+    
+    if(!result.success){
+      console.log("Sign-up failed:", result.error);
+      return;
+    }
+      console.log("Sign-up success:", result.user);
   };
 
   const handleGoogleSignIn = () => {
@@ -79,7 +82,7 @@ export default function SignUpPage() {
           Sign up and get started!
         </p>
 
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
           {/* Email */}
           <div>
             <label className="block text-sm text-bgColor font-semibold mb-1">
@@ -191,13 +194,13 @@ export default function SignUpPage() {
           className="mt-3 w-full text-sm border border-bgColor text-bgColor font-semibold rounded-md py-2 flex items-center justify-center gap-3 hover:bg-bgColor hover:text-darkRed transition"
         >
           <Image src="/icons/google-icon.png" alt="Google Icon" width={20} height={20} />
-          Sign In using GMail Account
+          Sign Up using Gmail Account
         </button>
 
         {/* Already have account */}
         <p className="text-center text-sm text-peachCream mt-6">
           Already have an account?{" "}
-          <Link href="/sign-in" className="font-semibold hover:underline text-white">
+          <Link href="/auth/sign-in" className="font-semibold hover:underline text-white">
             Sign In!
           </Link>
         </p>

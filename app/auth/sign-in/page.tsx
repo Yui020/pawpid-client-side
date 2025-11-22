@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "@/app/__backend/auth/sign_in"
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function SignInPage() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [SignInSuccessful, setSignInSuccessful] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -20,21 +22,25 @@ export default function SignInPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { email, password } = formData;
 
-    // Login Logic
-    if (email === "pawpid@gmail.com" && password === "pawpidAdopter123") {
-      console.log("Adopter login successful!");
-      router.push("/");
-    } else if (email === "pawpid.shelter@gmail.com" && password === "pawpidShelter456") {
-      console.log("Shelter login successful!");
-      router.push("/shelter-module/home");
-    } else {
-      setError("Invalid email or password.");
+// IF Sign in unsuccessful
+//   Show warning invalid credentials
+// Else 
+//   Show main Pawpid main page
+
+  async function handleSignIn() {
+    const result = await signIn(formData.email, formData.password);
+      
+    if (!result.success) {
+      console.log("Sign-in failed:", result.error);
+      setSignInSuccessful(false);
+      return;
     }
-  };
+    setSignInSuccessful(true);
+    console.log("Sign-in success:", result.user);
+    router.push("/")
+  }
+
   const handleGoogleSignIn = () => {
     console.log("Sign in with Google clicked");
     // Google Auth logic goes here
@@ -81,7 +87,7 @@ export default function SignInPage() {
         <h2 className="text-2xl font-poppins font-bold text-start">Welcome!</h2>
         <p className="text-start text-sm font-poppins text-peachCream mb-6">Sign in and get started!</p>
 
-        <form onSubmit={handleSignIn}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
           {/* Email */}
           <div>
             <label className="block text-sm text-bgColor font-semibold mb-1">Email</label>
@@ -124,6 +130,13 @@ export default function SignInPage() {
             </a>
           </div>
 
+         {/*Sign In Error Message*/}
+          {!SignInSuccessful && (
+            <p className="text-sm text-center text-red-300 mb-3 font-medium">
+              Invalid email or password.
+            </p>
+          )}
+
           {/* Error Message */}
           {error && (
             <p className="text-sm text-center text-red-300 mb-3 font-medium">{error}</p>
@@ -156,7 +169,7 @@ export default function SignInPage() {
         {/* Sign Up Link */}
         <p className="text-center text-sm text-peachCream mt-6">
           Don’t have an account?{" "}
-          <Link href="/sign-up" className="font-semibold hover:underline text-white">
+          <Link href="/auth/sign-up" className="font-semibold hover:underline text-white">
             Sign Up!
           </Link>
         </p>
