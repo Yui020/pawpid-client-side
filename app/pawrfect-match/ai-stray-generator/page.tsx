@@ -6,7 +6,7 @@ import PawBackground from "@/components/pawBackground";
 import AIStrayForm from "@/components/ai-stray-form";
 import GeneratedStrayImage from "@/components/generated-image";
 import AIStrayCard from "@/components/stray-card";
-import { lookForClosestLookingStray } from "../../microservices_api/match_ai_services/SimilarStray";
+import { lookForClosestLookingStray } from "../../__backend/match_ai_service/SimilarStray";
 
 export default function AIPetGenerator() {
   const router = useRouter();

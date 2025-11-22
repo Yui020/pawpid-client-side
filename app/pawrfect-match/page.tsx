@@ -10,7 +10,7 @@ import AdopterLifestyle from "@/components/application-form/adopters-lifestyle";
 import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
-import { getMatchingPrediction } from "../microservices_api/match_ai_services/getMatchingPrediction";
+import { getMatchingPrediction } from "../__backend/match_ai_service/getMatchingPrediction";
 
 export default function PawrfectMatch() {
   const router = useRouter();

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import PawBackground from '@/components/pawBackground';
 import AdopterBasicInfo from "@/components/adopterBasicInfo";
 import AIStrayCard from "@/components/stray-card";
-import { matchAdoptertoStrays } from "@/app/microservices_api/match_ai_services/getMatchingPrediction";
+import { matchAdoptertoStrays } from "@/app/__backend/match_ai_service/getMatchingPrediction";
 
 interface MatchingResultsProps {
   adopterDetails: any;
