@@ -1,5 +1,5 @@
 export async function lookForClosestLookingStray(image_base64: string) {
-  const BASE_URL = "https://pawpid-match-ai-service-60157892781.asia-northeast1.run.app";
+  const BASE_URL = "https://pawpid-match-ai-service-60157892781.europe-west1.run.app";
 
   function base64ToFile(base64: string, filename: string): File {
     try {
