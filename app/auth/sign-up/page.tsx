@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signUp } from "@/app/__backend/auth/sign_up";
+import { gSignIn } from "@/app/__backend/auth/gsign_in";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,20 @@ export default function SignUpPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  //Show Sign in after successfull Sign Up
+  //Manual Sign in
+  const handleSignUp = async () => {
+    const result = await signUp(formData.email, formData.password);
+    handleFailedSignUp(result);
+    handleSuccessfullSignUp(result);
+  };
+  //OAuth G-Sign In
+  const handleGoogleSignIn = async () => {
+    const result = await gSignIn();
+    handleFailedSignUp(result);
+    handleSuccessfullSignUp(result);
+  };
+
+    //Show Sign in after successfull Sign Up
   const handleSuccessfullSignUp = (result: any) => {
     if (result.success && result.code === "user_registered") {
       router.push("/auth/sign-in");
@@ -42,17 +56,7 @@ export default function SignUpPage() {
       return;
     }
   };
-
-  async function handleSignUp() {
-    const result = await signUp(formData.email, formData.password);
-    handleFailedSignUp(result);
-    handleSuccessfullSignUp(result);
-  }
-
-  const handleGoogleSignIn = () => {
-    console.log("Sign up with Google clicked");
-  };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-peachCream relative font-poppins overflow-hidden">
       {/* ====== BACKGROUND IMAGES ====== */}

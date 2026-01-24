@@ -16,6 +16,5 @@ export async function signUp(email:string, password:string) {
       code: "user_already_exists" 
     };
   }
-
   return { success: true, user: data.user, code:"user_registered"};
 }
