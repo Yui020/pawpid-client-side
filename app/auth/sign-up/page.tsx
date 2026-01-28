@@ -37,7 +37,7 @@ export default function SignUpPage() {
     handleSuccessfullSignUp(result);
   };
 
-    //Show Sign in after successfull Sign Up
+  //Show Sign in after successfull Sign Up
   const handleSuccessfullSignUp = (result: any) => {
     if (result.success && result.code === "user_registered") {
       router.push("/auth/sign-in");
@@ -56,7 +56,7 @@ export default function SignUpPage() {
       return;
     }
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-peachCream relative font-poppins overflow-hidden">
       {/* ====== BACKGROUND IMAGES ====== */}

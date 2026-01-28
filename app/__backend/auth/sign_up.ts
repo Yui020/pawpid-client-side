@@ -8,7 +8,6 @@ export async function signUp(email:string, password:string) {
 
   if (error) return { success: false, error: error.message };
 
-  // CHECK: If identities is empty, Supabase found a duplicate email
   if (data.user && data.user.identities && data.user.identities.length === 0) {
     return { 
       success: false, 
