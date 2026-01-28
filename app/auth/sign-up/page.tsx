@@ -5,18 +5,18 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signUp } from "@/app/__backend/auth/sign_up"
+import { signUp } from "@/app/__backend/auth/sign_up";
+import { gSignIn } from "@/app/__backend/auth/gsign_in";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    role: "",
+    role: "adopter",
   });
 
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -24,23 +24,41 @@ export default function SignUpPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  async function handleSignUp() {
-    const result = await signUp(formData.email, formData.password)
-    
-    if(!result.success){
+  //Manual Sign in
+  const handleSignUp = async () => {
+    const result = await signUp(formData.email, formData.password);
+    handleFailedSignUp(result);
+    handleSuccessfullSignUp(result);
+  };
+  //OAuth G-Sign In
+  const handleGoogleSignIn = async () => {
+    const result = await gSignIn();
+    handleFailedSignUp(result);
+    handleSuccessfullSignUp(result);
+  };
+
+    //Show Sign in after successfull Sign Up
+  const handleSuccessfullSignUp = (result: any) => {
+    if (result.success && result.code === "user_registered") {
+      router.push("/auth/sign-in");
+    }
+  };
+
+  //Show Errors after Failed Sign Up
+  const handleFailedSignUp = (result: any) => {
+    //Incomplete
+    if (!result.success && result.code === "user_already_exists") {
+      //Show ka dito claire ng dialog/popup na account already exists. tas may pang redirect o bahala ka na pala
+      return;
+    }
+    if (!result.success) {
       console.log("Sign-up failed:", result.error);
       return;
     }
-      console.log("Sign-up success:", result.user);
   };
-
-  const handleGoogleSignIn = () => {
-    console.log("Sign up with Google clicked");
-  };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-peachCream relative font-poppins overflow-hidden">
-
       {/* ====== BACKGROUND IMAGES ====== */}
       <Image
         src="/assets/paw-bottom.png"
@@ -74,7 +92,12 @@ export default function SignUpPage() {
       {/* ====== SIGN-UP CARD ====== */}
       <div className="relative bg-darkRed text-white p-10 rounded-2xl shadow-lg w-full max-w-md z-10">
         <div className="flex justify-center mb-4">
-          <Image src="/assets/pawpid-logo.png" alt="Pawpid Logo" width={150} height={150} />
+          <Image
+            src="/assets/pawpid-logo.png"
+            alt="Pawpid Logo"
+            width={150}
+            height={150}
+          />
         </div>
 
         <h2 className="text-2xl font-bold text-start mb-1">Join PawPid Now!</h2>
@@ -82,7 +105,12 @@ export default function SignUpPage() {
           Sign up and get started!
         </p>
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSignUp();
+          }}
+        >
           {/* Email */}
           <div>
             <label className="block text-sm text-bgColor font-semibold mb-1">
@@ -133,7 +161,9 @@ export default function SignUpPage() {
                 required
                 value={formData.confirmPassword}
                 placeholder="Confirm Password"
-                onChange={(e) => onInputChange("confirmPassword", e.target.value)}
+                onChange={(e) =>
+                  onInputChange("confirmPassword", e.target.value)
+                }
                 className="w-full px-4 py-2 mb-4 rounded-md bg-bgColor text-darkRed placeholder-drayPink border border-pastelPink focus:ring-2 focus:ring-pastelPink outline-none"
               />
               <button
@@ -193,14 +223,22 @@ export default function SignUpPage() {
           onClick={handleGoogleSignIn}
           className="mt-3 w-full text-sm border border-bgColor text-bgColor font-semibold rounded-md py-2 flex items-center justify-center gap-3 hover:bg-bgColor hover:text-darkRed transition"
         >
-          <Image src="/icons/google-icon.png" alt="Google Icon" width={20} height={20} />
+          <Image
+            src="/icons/google-icon.png"
+            alt="Google Icon"
+            width={20}
+            height={20}
+          />
           Sign Up using Gmail Account
         </button>
 
         {/* Already have account */}
         <p className="text-center text-sm text-peachCream mt-6">
           Already have an account?{" "}
-          <Link href="/auth/sign-in" className="font-semibold hover:underline text-white">
+          <Link
+            href="/auth/sign-in"
+            className="font-semibold hover:underline text-white"
+          >
             Sign In!
           </Link>
         </p>

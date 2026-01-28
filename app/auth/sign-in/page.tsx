@@ -5,7 +5,8 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/app/__backend/auth/sign_in"
+import { signIn } from "@/app/__backend/auth/sign_in";
+import { gSignIn } from "@/app/__backend/auth/gsign_in";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -22,30 +23,36 @@ export default function SignInPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-
-// IF Sign in unsuccessful
-//   Show warning invalid credentials
-// Else 
-//   Show main Pawpid main page
-
   async function handleSignIn() {
     const result = await signIn(formData.email, formData.password);
-      
+    handleFailedSignIn(result);
+    handleSuccessfullSignIn(result);
+  }
+
+  //OAuth G-Sign In
+  const handleGoogleSignIn = async () => {
+    const result = await gSignIn();
+    handleFailedSignIn(result);
+    handleSuccessfullSignIn(result);
+  };
+
+  //Show Dashboard after successfull Sign In
+  const handleSuccessfullSignIn = (result: any) => {
+    if (result.success && result.code === "user_in") {
+      setSignInSuccessful(true);
+      console.log("Sign-in success:", result.user);
+      router.push("/");
+    }
+  };
+
+  //Show Errors after Failed Sign In
+  const handleFailedSignIn = (result: any) => {
     if (!result.success) {
       console.log("Sign-in failed:", result.error);
       setSignInSuccessful(false);
       return;
     }
-    setSignInSuccessful(true);
-    console.log("Sign-in success:", result.user);
-    router.push("/")
-  }
-
-  const handleGoogleSignIn = () => {
-    console.log("Sign in with Google clicked");
-    // Google Auth logic goes here
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-peachCream relative font-poppins">
       {/* ====== BACKGROUND IMAGES ====== */}
@@ -81,16 +88,30 @@ export default function SignInPage() {
       {/* ====== SIGN-IN CARD ====== */}
       <div className="bg-darkRed text-white p-10 rounded-2xl shadow-lg w-full max-w-md z-10">
         <div className="flex justify-center mb-6">
-          <Image src="/assets/pawpid-logo.png" alt="Pawpid Logo" width={180} height={180} />
+          <Image
+            src="/assets/pawpid-logo.png"
+            alt="Pawpid Logo"
+            width={180}
+            height={180}
+          />
         </div>
 
         <h2 className="text-2xl font-poppins font-bold text-start">Welcome!</h2>
-        <p className="text-start text-sm font-poppins text-peachCream mb-6">Sign in and get started!</p>
+        <p className="text-start text-sm font-poppins text-peachCream mb-6">
+          Sign in and get started!
+        </p>
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSignIn();
+          }}
+        >
           {/* Email */}
           <div>
-            <label className="block text-sm text-bgColor font-semibold mb-1">Email</label>
+            <label className="block text-sm text-bgColor font-semibold mb-1">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -103,7 +124,9 @@ export default function SignInPage() {
 
           {/* Password */}
           <div>
-            <label className="block text-sm text-bgColor font-semibold mb-1">Password</label>
+            <label className="block text-sm text-bgColor font-semibold mb-1">
+              Password
+            </label>
             <div className="relative">
               <input
                 required
@@ -130,7 +153,7 @@ export default function SignInPage() {
             </a>
           </div>
 
-         {/*Sign In Error Message*/}
+          {/*Sign In Error Message*/}
           {!SignInSuccessful && (
             <p className="text-sm text-center text-red-300 mb-3 font-medium">
               Invalid email or password.
@@ -139,7 +162,9 @@ export default function SignInPage() {
 
           {/* Error Message */}
           {error && (
-            <p className="text-sm text-center text-red-300 mb-3 font-medium">{error}</p>
+            <p className="text-sm text-center text-red-300 mb-3 font-medium">
+              {error}
+            </p>
           )}
 
           {/* Sign In Button */}
@@ -162,14 +187,22 @@ export default function SignInPage() {
           onClick={handleGoogleSignIn}
           className="mt-3 w-full text-sm border border-bgColor text-bgColor font-semibold rounded-md py-2 flex items-center justify-center gap-3 hover:bg-bgColor hover:text-darkRed transition"
         >
-          <Image src="/icons/google-icon.png" alt="Google Icon" width={20} height={20} />
+          <Image
+            src="/icons/google-icon.png"
+            alt="Google Icon"
+            width={20}
+            height={20}
+          />
           Sign in using Gmail Account
         </button>
 
         {/* Sign Up Link */}
         <p className="text-center text-sm text-peachCream mt-6">
           Don’t have an account?{" "}
-          <Link href="/auth/sign-up" className="font-semibold hover:underline text-white">
+          <Link
+            href="/auth/sign-up"
+            className="font-semibold hover:underline text-white"
+          >
             Sign Up!
           </Link>
         </p>
