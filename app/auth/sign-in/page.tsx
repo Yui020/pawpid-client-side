@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/app/__backend/auth/sign_in";
 import { gSignIn } from "@/app/__backend/auth/gsign_in";
+import { forgotPass } from "@/app/__backend/auth/forgot_pass";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -35,10 +36,20 @@ export default function SignInPage() {
     handleFailedSignIn(result);
     handleSuccessfullSignIn(result);
   };
+  //Forgot Password
+  const handleForgotPass = async () => {
+    const result = await forgotPass(formData.email);
+
+    if (result.success) {
+      console.log("Sign-in success:", result.success);
+      router.push("/sign-up");
+    }
+  };
+
 
   //Show Dashboard after successfull Sign In
   const handleSuccessfullSignIn = (result: any) => {
-    if (result.success && result.code === "user_in") {
+    if (result.success) {
       setSignInSuccessful(true);
       console.log("Sign-in success:", result.user);
       router.push("/");
@@ -148,7 +159,7 @@ export default function SignInPage() {
 
           {/* Forgot Password */}
           <div className="text-right mb-5">
-            <a href="#" className="text-xs text-peachCream hover:underline">
+            <a href="#" onClick={handleForgotPass} className="text-xs text-peachCream hover:underline">
               Forgot Password?
             </a>
           </div>
