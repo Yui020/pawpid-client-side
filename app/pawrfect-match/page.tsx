@@ -11,8 +11,9 @@ import AdopterReadiness from "@/components/application-form/adopters-readiness";
 import AdopterPreferences from "@/components/application-form/adopters-preferences";
 import AdopterConfirmation from "@/components/application-form/adopters-confirmation";
 import { getMatchingPrediction } from "../__backend/match_ai_service/getMatchingPrediction";
+import { Suspense } from 'react';
 
-export default function PawrfectMatch() {
+export default function PawrfectMatchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
@@ -275,6 +276,7 @@ export default function PawrfectMatch() {
   
     */
   return (
+    <Suspense fallback={<div>Loading form...</div>}>
     <PawBackground>
       <div className="container mx-auto px-6 py-8 relative z-10">
         
@@ -454,5 +456,6 @@ export default function PawrfectMatch() {
 
       </div>
     </PawBackground>
+    </Suspense>
   );
 }
