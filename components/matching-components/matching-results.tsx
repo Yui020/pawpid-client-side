@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from "react";
-import PawBackground from '@/components/pawBackground';
+import PawBackground from "@/components/pawBackground";
 import AdopterBasicInfo from "@/components/adopterBasicInfo";
 import AIStrayCard from "@/components/stray-card";
-import { matchAdoptertoStrays } from "@/app/__backend/match_ai_service/getMatchingPrediction";
+import { getMatchingPrediction } from "@/app/__backend/match_ai_service/getMatchingPrediction";
 
 interface MatchingResultsProps {
   adopterDetails: any;
@@ -15,22 +15,24 @@ interface MatchingResultsProps {
 export default function MatchingResults({
   adopterDetails,
   species_type,
-  used_ai
+  used_ai,
 }: MatchingResultsProps) {
   const [strays, setStrays] = useState<any[]>([]);
 
   const userInfo = {
-    fullName: 'Kang Seulgi',
-    birthdate: 'MM/DD/YYYY',
-    phone: '00000-000-000',
-    email: 'kseulgi@gmail.com',
-    address: 'Forbes Park, Makati, Metro Manila, Philippines',
-    imageUrl: '/api/placeholder/200/200'
+    fullName: "Kang Seulgi",
+    birthdate: "MM/DD/YYYY",
+    phone: "00000-000-000",
+    email: "kseulgi@gmail.com",
+    address: "Forbes Park, Makati, Metro Manila, Philippines",
+    imageUrl: "/api/placeholder/200/200",
   };
 
   useEffect(() => {
     async function fetchStrays() {
-      const data = await matchAdoptertoStrays(adopterDetails, species_type, used_ai);
+      const data = await getMatchingPrediction(
+        adopterDetails
+      );
       setStrays(data);
     }
     fetchStrays();
@@ -39,18 +41,17 @@ export default function MatchingResults({
   return (
     <PawBackground>
       <div className="container mx-auto px-6 py-8 relative z-10">
-        
         <div className="mb-8">
           <h1 className="text-5xl text-center font-extrabold text-[#911A1C] mb-2">
             PAWRFECT MATCHING RESULTS
           </h1>
           <p className="text-lg text-gray-700">
-            Discover pets that fit your lifestyle and preferences through our compatibility scoring system.
+            Discover pets that fit your lifestyle and preferences through our
+            compatibility scoring system.
           </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          
           <div className="flex-shrink-0 w-full lg:w-1/3">
             <AdopterBasicInfo {...userInfo} />
           </div>
@@ -80,9 +81,7 @@ export default function MatchingResults({
               >
                 ← Back
               </button>
-              <button
-                className="flex items-center gap-2 bg-[#911A1C] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#6d1315] transition"
-              >
+              <button className="flex items-center gap-2 bg-[#911A1C] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#6d1315] transition">
                 Next →
               </button>
             </div>
