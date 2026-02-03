@@ -37,7 +37,7 @@ export default function AIPetGenerator() {
         ears: preferencesData.ears
       }).toString();
 
-      const url = `https://pawpid-match-ai-service-60157892781.asia-northeast1.run.app/ai_visualizer/generate_ai_image?${queryParams}`;
+      const url = `https://pawpid-match-ai-service-60157892781.europe-west1.run.app/ai_visualizer/generate_ai_image?${queryParams}`;
       console.log("Fetching:", url);
 
       const response = await fetch(url, {
